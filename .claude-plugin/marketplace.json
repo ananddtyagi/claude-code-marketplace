@@ -11,6 +11,28 @@
   },
   "plugins": [
     {
+      "name": "sugar",
+      "source": "./plugins/sugar",
+      "description": "Transform Claude Code into an autonomous AI development powerhouse with rich task context, specialized agents, and intelligent workflow automation",
+      "version": "2.0.0",
+      "author": {
+        "name": "Steven Leggett",
+        "url": "https://github.com/cdnsteve",
+        "email": "contact@roboticforce.io"
+      },
+      "category": "workflow",
+      "homepage": "https://github.com/cdnsteve/sugar",
+      "keywords": [
+        "autonomous",
+        "workflow",
+        "productivity",
+        "task-management",
+        "agents",
+        "automation",
+        "mcp"
+      ]
+    },
+    {
       "name": "documentation-generator",
       "source": "./plugins/documentation-generator",
       "description": "Create comprehensive documentation for code, APIs, and projects.",
