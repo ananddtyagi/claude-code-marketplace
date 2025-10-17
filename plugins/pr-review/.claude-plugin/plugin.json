@@ -6,7 +6,6 @@
     "name": "arkavo-org",
     "url": "https://github.com/arkavo-org"
   },
-  "category": "general",
   "homepage": "https://claudecodecommands.directory/commands/pr-review",
   "commands": "./commands/"
 }

@@ -6,7 +6,6 @@
     "name": "steadycursor",
     "url": "https://github.com/steadycursor"
   },
-  "category": "general",
   "homepage": "https://claudecodecommands.directory/commands/2-commit-fast",
   "commands": "./commands/"
 }

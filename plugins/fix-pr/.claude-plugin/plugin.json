@@ -6,7 +6,6 @@
     "name": "metabase",
     "url": "https://github.com/metabase"
   },
-  "category": "general",
   "homepage": "https://claudecodecommands.directory/commands/fix-pr",
   "commands": "./commands/"
 }
