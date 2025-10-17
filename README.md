@@ -4,6 +4,7 @@ Community-driven marketplace for Claude Code commands and plugins.
 
 ## 🚀 Quick Start
 
+### Standard Installation
 Add this marketplace to Claude Code:
 
 ```bash
@@ -25,6 +26,13 @@ Install a specific agent:
 ```bash
 /plugin install accessibility-expert@claude-code-marketplace
 ```
+### One-Command Installation
+Use the [Claude Plugins CLI](https://claude-plugins.dev) to skip the marketplace setup:
+```bash
+npx claude-plugins install @ananddtyagi/claude-code-marketplace/accessibility-expert
+```
+
+This automatically adds the marketplace and installs the specific agent/command in a single step.
 
 ## 🌟 Featured Commands
 
