@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/brand-guardian",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/brand-guardian.md"
+  ]
 }

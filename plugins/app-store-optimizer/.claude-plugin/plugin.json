@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/app-store-optimizer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

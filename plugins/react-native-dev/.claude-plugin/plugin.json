@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/react-native-dev",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/ux-researcher",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

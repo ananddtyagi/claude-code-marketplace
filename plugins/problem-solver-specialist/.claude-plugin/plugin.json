@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/problem-solver-specialist",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/trend-researcher",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/trend-researcher.md"
+  ]
 }

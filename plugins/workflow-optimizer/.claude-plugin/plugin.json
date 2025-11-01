@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/workflow-optimizer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/workflow-optimizer.md"
+  ]
 }

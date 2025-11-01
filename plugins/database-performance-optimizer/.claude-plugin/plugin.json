@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/database-performance-optimizer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/technical-sales-engineer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/planning-prd-agent",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

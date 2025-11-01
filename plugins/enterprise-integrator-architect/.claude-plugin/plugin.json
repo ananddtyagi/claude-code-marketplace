@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/enterprise-integrator-architect",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

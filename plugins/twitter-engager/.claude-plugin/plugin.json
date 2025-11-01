@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/twitter-engager",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

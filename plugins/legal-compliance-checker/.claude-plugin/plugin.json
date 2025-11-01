@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/legal-compliance-checker",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

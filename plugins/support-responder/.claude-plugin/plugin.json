@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/support-responder",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/codebase-documenter",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

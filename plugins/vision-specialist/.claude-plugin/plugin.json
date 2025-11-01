@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/vision-specialist",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/vision-specialist.md"
+  ]
 }

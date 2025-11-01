@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/feedback-synthesizer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

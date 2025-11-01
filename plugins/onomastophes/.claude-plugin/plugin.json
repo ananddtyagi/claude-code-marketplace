@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/onomastophes",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

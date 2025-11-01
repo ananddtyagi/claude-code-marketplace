@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/growth-hacker",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/growth-hacker.md"
+  ]
 }

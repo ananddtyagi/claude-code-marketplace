@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/analytics-reporter",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/legal-advisor",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/pricing-packaging-specialist",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }
