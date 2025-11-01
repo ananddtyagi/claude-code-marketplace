@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/customer-success-manager",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

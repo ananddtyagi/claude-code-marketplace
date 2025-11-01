@@ -17,7 +17,5 @@
     "subagents"
   ],
   "commands": "./commands/",
-  "agents": "./agents/",
   "hooks": "./hooks/hooks.json"
 }
-

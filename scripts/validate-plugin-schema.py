@@ -237,27 +237,18 @@ class PluginValidator:
                     self.errors.append(f"[{plugin_name}] plugin.json 'keywords' must contain only strings")
                     is_valid = False
             
-            if "commands" in data:
-                if not isinstance(data["commands"], (list, str)):
-                    self.errors.append(f"[{plugin_name}] plugin.json 'commands' must be a string or array")
-                    is_valid = False
-                elif isinstance(data["commands"], list) and not all(isinstance(c, str) for c in data["commands"]):
-                    self.errors.append(f"[{plugin_name}] plugin.json 'commands' array must contain only strings")
-                    is_valid = False
-            
-            if "agents" in data:
-                if not isinstance(data["agents"], str) or not data["agents"]:
-                    self.errors.append(f"[{plugin_name}] plugin.json 'agents' must be a non-empty string")
-                    is_valid = False
-            
-            if "hooks" in data:
-                if not isinstance(data["hooks"], str) or not data["hooks"]:
-                    self.errors.append(f"[{plugin_name}] plugin.json 'hooks' must be a non-empty string")
-                    is_valid = False
-            
-            if "mcpServers" in data:
-                if not isinstance(data["mcpServers"], str) or not data["mcpServers"]:
-                    self.errors.append(f"[{plugin_name}] plugin.json 'mcpServers' must be a non-empty string")
+            # Check for disallowed fields that cause plugin loading failures
+            # These directories/files are auto-discovered by Claude Code
+            disallowed_fields = ["agents", "commands", "hooks", "mcpServers"]
+            for field in disallowed_fields:
+                if field in data:
+                    error_msg = (
+                        f"[{plugin_name}] plugin.json must NOT contain '{field}' field. "
+                        f"Claude Code automatically discovers the {field}/ directory or .mcp.json file. "
+                        f"Remove this field to fix plugin loading failures."
+                    )
+                    self.errors.append(error_msg)
+                    self.github_error(error_msg, str(file_path.relative_to(self.plugins_dir.parent)))
                     is_valid = False
             
             return is_valid

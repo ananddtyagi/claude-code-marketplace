@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/test-results-analyzer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

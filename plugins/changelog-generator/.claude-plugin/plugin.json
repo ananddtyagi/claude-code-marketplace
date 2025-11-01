@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/changelog-generator",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

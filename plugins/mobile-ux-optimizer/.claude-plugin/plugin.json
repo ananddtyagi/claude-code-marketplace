@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/mobile-ux-optimizer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

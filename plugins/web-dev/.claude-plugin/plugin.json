@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/web-dev",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/web-dev.md"
+  ]
 }

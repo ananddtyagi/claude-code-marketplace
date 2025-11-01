@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/content-creator",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/content-creator.md"
+  ]
 }

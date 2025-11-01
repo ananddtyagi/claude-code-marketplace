@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/enterprise-onboarding-specialist",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

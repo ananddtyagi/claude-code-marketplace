@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/reddit-community-builder",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/test-writer-fixer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/project-curator",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

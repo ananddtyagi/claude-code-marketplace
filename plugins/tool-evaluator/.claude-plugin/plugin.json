@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/tool-evaluator",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

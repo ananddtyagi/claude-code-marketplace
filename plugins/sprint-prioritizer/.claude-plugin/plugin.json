@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/sprint-prioritizer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

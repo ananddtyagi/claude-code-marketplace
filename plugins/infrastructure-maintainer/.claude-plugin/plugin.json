@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/infrastructure-maintainer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

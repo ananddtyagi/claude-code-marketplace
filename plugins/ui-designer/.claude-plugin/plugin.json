@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/ui-designer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/ui-designer.md"
+  ]
 }

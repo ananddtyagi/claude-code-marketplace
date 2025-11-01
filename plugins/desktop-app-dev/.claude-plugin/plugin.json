@@ -8,6 +8,5 @@
   "homepage": "https://claudecodecommands.directory/agents/desktop-app-dev",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }
