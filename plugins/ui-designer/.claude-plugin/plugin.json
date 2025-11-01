@@ -9,5 +9,5 @@
   "keywords": [
     "subagent"
   ],
-  "agents": "./agents/"
+  "agents": "./agents/ui-designer.md"
 }
