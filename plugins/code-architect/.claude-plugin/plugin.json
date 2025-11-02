@@ -5,10 +5,8 @@
   "author": {
     "name": "abhishek shah"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/code-architect",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

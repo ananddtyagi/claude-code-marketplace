@@ -1617,6 +1617,51 @@
         "architecture",
         "code-review"
       ]
+    },
+    {
+      "name": "experienced-engineer",
+      "source": "./plugins/experienced-engineer",
+      "description": "Comprehensive plugin with specialized engineering subagents (API Architect, Security Specialist, Code Quality Reviewer, etc.) and productivity commands for software teams",
+      "version": "1.0.0",
+      "author": {
+        "name": "Anand Tyagi",
+        "url": "https://github.com/ananddtyagi"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/ananddtyagi/claude-code-marketplace/tree/main/plugins/experienced-engineer",
+      "keywords": [
+        "engineering",
+        "team",
+        "productivity",
+        "code-quality",
+        "best-practices",
+        "agents",
+        "subagents"
+      ]
+    },
+    {
+      "name": "api-contract-sync-manager",
+      "source": "./plugins/api-contract-sync-manager",
+      "description": "Validate and synchronize API contracts (OpenAPI, GraphQL) with implementation, detect breaking changes, and generate type-safe client code",
+      "version": "1.0.0",
+      "author": {
+        "name": "Claude Code Marketplace",
+        "url": "https://github.com/ananddtyagi/claude-code-marketplace"
+      },
+      "category": "development",
+      "homepage": "https://github.com/ananddtyagi/claude-code-marketplace/tree/main/plugins/api-contract-sync-manager",
+      "keywords": [
+        "api",
+        "validation",
+        "openapi",
+        "swagger",
+        "graphql",
+        "types",
+        "code-generation",
+        "typescript",
+        "contracts",
+        "breaking-changes"
+      ]
     }
   ]
 }

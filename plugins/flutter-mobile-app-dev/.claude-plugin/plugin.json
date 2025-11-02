@@ -5,10 +5,8 @@
   "author": {
     "name": "safayavatsal"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/flutter-mobile-app-dev",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

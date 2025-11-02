@@ -1,0 +1,16 @@
+{
+  "PostToolUse": [
+    {
+      "name": "Update CLAUDE.md after major changes",
+      "matcher": "(Write|Edit|Delete|Refactor).*[5-9]\\d+|[1-9]\\d{2,}",
+      "description": "Automatically prompts to update CLAUDE.md when significant code changes are detected",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "/update-claude"
+        }
+      ]
+    }
+  ]
+}
+

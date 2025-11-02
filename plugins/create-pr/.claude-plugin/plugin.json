@@ -6,7 +6,6 @@
     "name": "toyamarinyon",
     "url": "https://github.com/toyamarinyon"
   },
-  "category": "general",
   "homepage": "https://claudecodecommands.directory/commands/create-pr",
   "commands": "./commands/"
 }

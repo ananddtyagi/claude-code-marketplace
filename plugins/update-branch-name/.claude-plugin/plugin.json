@@ -6,7 +6,6 @@
     "name": "giselles-ai",
     "url": "https://github.com/giselles-ai"
   },
-  "category": "general",
   "homepage": "https://claudecodecommands.directory/commands/update-branch-name",
   "commands": "./commands/"
 }

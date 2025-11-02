@@ -5,10 +5,8 @@
   "author": {
     "name": "Community"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/model-context-protocol-mcp-expert",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

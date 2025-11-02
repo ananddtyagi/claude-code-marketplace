@@ -1,0 +1,12 @@
+{
+  "name": "api-contract-sync-manager",
+  "version": "1.0.0",
+  "description": "Validate and synchronize API contracts (OpenAPI, GraphQL) with implementation, detect breaking changes, and generate client code",
+  "author": {
+    "name": "Anand Tyagi"
+  },
+  "skills": [
+    "./skills/api-contract-sync"
+  ]
+}
+

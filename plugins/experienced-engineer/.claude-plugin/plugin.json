@@ -1,0 +1,21 @@
+{
+  "name": "experienced-engineer",
+  "description": "A comprehensive plugin with specialized engineering subagents and productivity commands for software teams",
+  "version": "1.0.0",
+  "author": {
+    "name": "Anand Tyagi",
+    "url": "https://github.com/ananddtyagi"
+  },
+  "homepage": "https://github.com/ananddtyagi/claude-code-marketplace/tree/main/plugins/experienced-engineer",
+  "keywords": [
+    "engineering",
+    "team",
+    "productivity",
+    "code-quality",
+    "best-practices",
+    "agents",
+    "subagents"
+  ],
+  "commands": "./commands/",
+  "hooks": "./hooks/hooks.json"
+}

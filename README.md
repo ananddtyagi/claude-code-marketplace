@@ -26,12 +26,6 @@ Install a specific agent:
 /plugin install accessibility-expert@claude-code-marketplace
 ```
 
-## 📊 Stats
-
-- **Total Plugins**: 113 (35 commands + 78 agents)
-- **Categories**: 10+
-- **Contributors**: 17+
-
 ## 🌟 Featured Commands
 
 - **Documentation Generator** - Create comprehensive documentation for code, APIs, and projects. (by Anonymous)
@@ -45,7 +39,7 @@ Install a specific agent:
 - **Bug Detective** - Systematically debug issues with step-by-step troubleshooting approaches. (by Anonymous)
 - **Audit** - Perform security audit on codebase (by [@ananddtyagi](https://github.com/ananddtyagi))
 
-[View all 113 plugins →](https://claudecodecommands.directory)
+[View all plugins →](https://claudecodecommands.directory)
 
 ## 🤖 Featured Agents
 
@@ -55,7 +49,7 @@ Install a specific agent:
 - **DevOps Automator** - CI/CD and infrastructure automation specialist
 - **Code Reviewer** - Thorough code review and best practices enforcement
 
-[View all 78 agents →](https://claudecodecommands.directory)
+[View all agents →](https://claudecodecommands.directory)
 
 ## 💡 Browse & Submit
 

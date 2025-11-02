@@ -5,10 +5,8 @@
   "author": {
     "name": "Michael Galpert"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/rapid-prototyper",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

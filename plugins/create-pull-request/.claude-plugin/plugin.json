@@ -6,7 +6,6 @@
     "name": "liam-hq",
     "url": "https://github.com/liam-hq"
   },
-  "category": "general",
   "homepage": "https://claudecodecommands.directory/commands/create-pull-request",
   "commands": "./commands/"
 }
