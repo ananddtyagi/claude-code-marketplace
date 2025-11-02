@@ -1620,27 +1620,6 @@
       ]
     },
     {
-      "name": "debate-consensus",
-      "source": "KostasNoreika/claude-code-plugin-debate-consensus",
-      "description": "Multi-model AI consensus through structured debates. Orchestrates debates between Claude, GPT, Gemini, and other AI models with full MCP tool access.",
-      "version": "1.0.0",
-      "author": {
-        "name": "Kostas Noreika",
-        "url": "https://github.com/KostasNoreika"
-      },
-      "category": "productivity",
-      "homepage": "https://github.com/KostasNoreika/claude-code-plugin-debate-consensus",
-      "keywords": [
-        "debate",
-        "consensus",
-        "multi-model",
-        "ai",
-        "decision-making",
-        "architecture",
-        "code-review"
-      ]
-    },
-    {
       "name": "experienced-engineer",
       "source": "./plugins/experienced-engineer",
       "description": "Comprehensive plugin with specialized engineering subagents (API Architect, Security Specialist, Code Quality Reviewer, etc.) and productivity commands for software teams",
