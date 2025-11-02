@@ -1,17 +1,27 @@
 #!/bin/bash
 
 # Script to validate all plugins using the built-in Claude Code plugin validator
-# Usage: ./scripts/validate-all-plugins.sh
+# Usage: ./scripts/validate-all-plugins.sh [plugin_name]
+# Examples:
+#   ./scripts/validate-all-plugins.sh              # Validate all plugins
+#   ./scripts/validate-all-plugins.sh my-plugin    # Validate specific plugin
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PLUGINS_DIR="$REPO_ROOT/plugins"
+SPECIFIC_PLUGIN="$1"
 
-echo "========================================================"
-echo "Validating all plugins using 'claude plugin validate'"
-echo "========================================================"
+if [ -n "$SPECIFIC_PLUGIN" ]; then
+    echo "========================================================"
+    echo "Validating plugin: $SPECIFIC_PLUGIN"
+    echo "========================================================"
+else
+    echo "========================================================"
+    echo "Validating all plugins using 'claude plugin validate'"
+    echo "========================================================"
+fi
 echo ""
 
 # Check if claude command is available
@@ -19,6 +29,27 @@ if ! command -v claude &> /dev/null; then
     echo "❌ Error: 'claude' command not found"
     echo "Please install Claude Code first: https://docs.claude.com/claude-code"
     exit 1
+fi
+
+# If specific plugin provided, validate only that one
+if [ -n "$SPECIFIC_PLUGIN" ]; then
+    plugin_dir="$PLUGINS_DIR/$SPECIFIC_PLUGIN"
+
+    if [ ! -d "$plugin_dir" ]; then
+        echo "❌ Error: Plugin '$SPECIFIC_PLUGIN' not found in $PLUGINS_DIR"
+        exit 1
+    fi
+
+    echo "Validating: $SPECIFIC_PLUGIN"
+    echo "----------------------------------------"
+
+    if claude plugin validate "$plugin_dir" 2>&1; then
+        echo "✅ $SPECIFIC_PLUGIN - VALID"
+        exit 0
+    else
+        echo "❌ $SPECIFIC_PLUGIN - INVALID"
+        exit 1
+    fi
 fi
 
 # Find all plugin directories
