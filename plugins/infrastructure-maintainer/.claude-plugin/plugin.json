@@ -5,10 +5,8 @@
   "author": {
     "name": "Michael Galpert"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/infrastructure-maintainer",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

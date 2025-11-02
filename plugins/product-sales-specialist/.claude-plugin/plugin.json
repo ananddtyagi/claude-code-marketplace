@@ -5,10 +5,8 @@
   "author": {
     "name": "Alysson Franklin"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/product-sales-specialist",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

@@ -5,10 +5,8 @@
   "author": {
     "name": "normalnormie"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/angelos-symbo",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }

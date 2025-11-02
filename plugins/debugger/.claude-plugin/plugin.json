@@ -5,10 +5,8 @@
   "author": {
     "name": "Anand Tyagi"
   },
-  "category": "agents",
   "homepage": "https://claudecodecommands.directory/agents/debugger",
   "keywords": [
     "subagent"
-  ],
-  "agents": "./agents/"
+  ]
 }
