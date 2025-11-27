@@ -79,7 +79,8 @@ Individual commands may have their own licenses. See each command file for detai
 
 ## 🤝 Contributing
 
-Submit commands at [claudecodecommands.directory/submit](https://claudecodecommands.directory/submit)
+Submit commands at [claudecodecommands.directory/submit](https://claudecodecommands.directory)
+Submit agents at [claudecodecommands.directory/submit-agent](https://subagents.cc)
 
 ---
 

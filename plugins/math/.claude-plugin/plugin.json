@@ -1,0 +1,12 @@
+{
+    "name": "math",
+    "description": "Deterministic math operations using SymPy - arithmetic, algebra, calculus, linear algebra, number theory, and statistics",
+    "version": "1.0.0",
+    "author": {
+      "name": " Anand Tyagi",
+      "url": "https://github.com/ananddtyagi"
+    },
+    "homepage": "https://github.com/ananddtyagi",
+    "keywords": ["math", "sympy", "calculus", "algebra", "calculator"]
+  }
+  
