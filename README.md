@@ -1,4 +1,4 @@
-# Claude Code Commands Marketplace
+# Claude Code Marketplace
 
 Community-driven marketplace for Claude Code commands and plugins.
 
