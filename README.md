@@ -7,7 +7,7 @@ Community-driven marketplace for Claude Code commands and plugins.
 Add this marketplace to Claude Code:
 
 ```bash
-/plugin marketplace add ananddtyagi/claude-code-marketplace
+/plugin marketplace add ananddtyagi/cc-marketplace
 ```
 
 Then browse and install individual plugins (commands or agents):
@@ -18,12 +18,12 @@ Then browse and install individual plugins (commands or agents):
 
 Install a specific command:
 ```bash
-/plugin install lyra@claude-code-marketplace
+/plugin install lyra@cc-marketplace
 ```
 
 Install a specific agent:
 ```bash
-/plugin install accessibility-expert@claude-code-marketplace
+/plugin install accessibility-expert@cc-marketplace
 ```
 
 ## 🌟 Featured Commands

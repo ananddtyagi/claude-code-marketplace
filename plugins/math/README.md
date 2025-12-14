@@ -59,11 +59,11 @@ pip install sympy
 First add this marketplace to Claude Code:
 
 ```bash
-/plugin marketplace add ananddtyagi/claude-code-marketplace
+/plugin marketplace add ananddtyagi/cc-marketplace
 ```
 
 ```bash
-/plugin install math@claude-code-marketplace
+/plugin install math@cc-marketplace
 ```
 
 ### Manual Skill Install (without plugin)
