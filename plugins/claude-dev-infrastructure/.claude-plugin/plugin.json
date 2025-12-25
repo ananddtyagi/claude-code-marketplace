@@ -1,0 +1,43 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "claude-dev-infrastructure",
+  "version": "1.0.0",
+  "description": "Comprehensive development infrastructure for Claude Code projects. Includes 12 AI skills, task coordination hooks, project templates, and a visual dev-manager dashboard.",
+  "author": {
+    "name": "endlessblink",
+    "email": "endlessblink@users.noreply.github.com"
+  },
+  "license": "MIT",
+  "skills": [
+    "./skills/chief-architect",
+    "./skills/master-plan-manager",
+    "./skills/meta-skill-router",
+    "./skills/skill-creator-doctor",
+    "./skills/skills-manager",
+    "./skills/ai-truthfulness-enforcer",
+    "./skills/document-sync",
+    "./skills/safe-project-organizer",
+    "./skills/data-safety-auditor",
+    "./skills/crisis-debugging-advisor",
+    "./skills/qa-testing",
+    "./skills/plugin-creator"
+  ],
+  "hooks": {
+    "source": "./hooks/hooks.json"
+  },
+  "commands": [
+    {
+      "name": "dev-setup",
+      "description": "Initialize a new project with dev infrastructure (templates, hooks, skills)",
+      "source": "./commands/dev-setup.md"
+    },
+    {
+      "name": "dev-manager",
+      "description": "Start the visual Kanban dashboard for MASTER_PLAN.md tracking",
+      "source": "./commands/dev-manager.md"
+    }
+  ],
+  "category": "development",
+  "tags": ["infrastructure", "task-tracking", "hooks", "skills", "productivity", "multi-instance"],
+  "repository": "https://github.com/endlessblink/claude-dev-infrastructure"
+}

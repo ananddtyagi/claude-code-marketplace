@@ -1,0 +1,26 @@
+{
+  "hooks": [
+    {
+      "event": "PreToolUse",
+      "matcher": "Edit|Write",
+      "command": "./hooks/task-lock-enforcer.sh",
+      "description": "Prevents concurrent editing of task files by multiple Claude sessions"
+    },
+    {
+      "event": "PreToolUse",
+      "matcher": "Edit|Write",
+      "command": "./hooks/master-plan-reminder.sh",
+      "description": "Reminds to update MASTER_PLAN.md when modifying tracked files"
+    },
+    {
+      "event": "SessionStart",
+      "command": "./hooks/session-lock-awareness.sh",
+      "description": "Shows active task locks from other sessions at startup"
+    },
+    {
+      "event": "SessionEnd",
+      "command": "./hooks/session-lock-release.sh",
+      "description": "Releases task locks when session ends"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-dev-infrastructure",
+  "version": "1.0.0",
+  "description": "Development infrastructure marketplace for Claude Code - includes task tracking, multi-instance coordination, and AI skills",
+  "owner": {
+    "name": "endlessblink",
+    "email": "endlessblink@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "claude-dev-infrastructure",
+      "description": "Complete dev infrastructure with 12 AI skills, task coordination hooks, and visual Kanban dashboard",
+      "source": ".",
+      "version": "1.0.0",
+      "category": "development",
+      "tags": ["infrastructure", "task-tracking", "productivity", "hooks", "skills"]
+    }
+  ]
+}
