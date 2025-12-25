@@ -1,0 +1,4020 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomo-Flow Task Management</title>
+  <style>
+    /* Design tokens - Pure black theme (matching Storybook) */
+    :root {
+      /* Pure black palette */
+      --surface-primary: #000000;
+      --surface-secondary: #0d1117;
+      --surface-tertiary: #161b22;
+      --surface-elevated: #21262d;
+      --surface-hover: rgba(255, 255, 255, 0.05);
+
+      /* Text hierarchy (from Storybook) */
+      --text-primary: #e6edf3;
+      --text-secondary: #c9d1d9;
+      --text-muted: #8b949e;
+      --text-subtle: #6e7681;
+
+      /* Borders (from Storybook) */
+      --border-subtle: #1a1a1a;
+      --border-medium: #30363d;
+      --border-strong: #484f58;
+
+      /* Brand - Teal accent */
+      --brand-primary: #4ECDC4;
+      --brand-hover: #5fd9d1;
+      --brand-subtle: rgba(78, 205, 196, 0.15);
+
+      /* Status colors */
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --color-info: #3b82f6;
+
+      /* Transitions */
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--surface-primary);
+      color: var(--text-secondary);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      background: var(--surface-secondary);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .sidebar-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .nav-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-tab {
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all var(--transition-fast);
+      text-align: left;
+    }
+
+    .nav-tab:hover {
+      background: var(--surface-tertiary);
+      color: var(--text-secondary);
+    }
+
+    .nav-tab.active {
+      background: var(--brand-primary);
+      color: var(--surface-primary);
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface-primary);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .header {
+      background: var(--surface-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      background: var(--brand-primary);
+      border: none;
+      color: var(--surface-primary);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all var(--transition-fast);
+    }
+
+    .btn:hover {
+      background: var(--brand-hover);
+      transform: translateY(-1px);
+    }
+
+    /* SEARCH INPUT */
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-input {
+      padding: 8px 12px;
+      background: var(--surface-tertiary);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      width: 200px;
+      transition: all var(--transition-fast);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 2px var(--brand-subtle);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-subtle);
+    }
+
+    .search-clear {
+      padding: 4px 8px;
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+      transition: color var(--transition-fast);
+    }
+
+    .search-clear:hover {
+      color: var(--text-secondary);
+    }
+
+    .search-results-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    .task-card.search-highlight {
+      box-shadow: 0 0 0 2px var(--brand-primary);
+    }
+
+    .task-card.search-dimmed {
+      opacity: 0.3;
+    }
+
+    /* FILTER DROPDOWNS */
+    .filter-select {
+      padding: 8px 12px;
+      background: var(--surface-tertiary);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+    }
+
+    .filter-select:hover {
+      border-color: var(--border-strong);
+    }
+
+    .filter-hidden {
+      display: none !important;
+    }
+
+    /* COLLAPSE TOGGLE */
+    .collapse-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all var(--transition-fast);
+      margin-left: auto;
+    }
+
+    .collapse-toggle:hover {
+      background: var(--surface-hover);
+      color: var(--text-secondary);
+    }
+
+    .column-content.collapsed {
+      display: none !important;
+    }
+
+    .column-header.collapsed .collapse-toggle {
+      transform: rotate(-90deg);
+    }
+
+    .column-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .column-header-text {
+      flex: 1;
+    }
+
+    .collapse-count {
+      background: var(--surface-tertiary);
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: flex;
+      gap: 24px;
+      padding: 12px 20px;
+      background: var(--surface-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .stat-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .stat-label {
+      color: var(--text-subtle);
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-medium);
+    }
+
+    .stat-progress-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-progress-bar {
+      width: 100px;
+      height: 6px;
+      background: var(--surface-tertiary);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .stat-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-success), #34d399);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    /* DRAG AND DROP */
+    .task-card.dragging {
+      opacity: 0.5;
+      transform: rotate(2deg);
+    }
+
+    .column-content.drag-over {
+      background: var(--brand-subtle);
+      border: 2px dashed var(--brand-primary);
+      border-radius: 8px;
+    }
+
+    /* TOAST NOTIFICATIONS */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: var(--surface-secondary);
+      border: 1px solid var(--border-medium);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast.info {
+      border-left: 4px solid var(--brand-primary);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* VIEW CONTAINER */
+    .view-container {
+      flex: 1;
+      display: none;
+      min-height: 0;
+    }
+
+    .view-container.active {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* KANBAN BOARD */
+    .kanban-board {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      align-items: stretch;
+    }
+
+    .kanban-column {
+      flex: 0 0 300px;
+      width: 300px;
+      background: var(--surface-secondary);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      max-height: 100%;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .column-header {
+      padding: 16px;
+      border-bottom: 2px solid var(--border-medium);
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .column-header.todo {
+      border-color: #ef4444;
+    }
+
+    .column-header.in-progress {
+      border-color: #f59e0b;
+    }
+
+    .column-header.review {
+      border-color: #3b82f6;
+    }
+
+    .column-header.done {
+      border-color: #10b981;
+    }
+
+    /* Ideas view columns */
+    .column-header.raw {
+      border-color: #4a5568;
+    }
+
+    .column-header.developing {
+      border-color: #3182ce;
+    }
+
+    .column-header.ready {
+      border-color: #805ad5;
+    }
+
+    .column-header.promoted {
+      border-color: #2f855a;
+    }
+
+    /* Roadmap view columns */
+    .column-header.current {
+      border-color: #2c5282;
+    }
+
+    .column-header.next {
+      border-color: #3182ce;
+    }
+
+    .column-header.future {
+      border-color: #4a5568;
+    }
+
+    .column-header.completed {
+      border-color: #2f855a;
+    }
+
+    /* Archive view columns */
+    .column-header.recent {
+      border-color: #2d3748;
+    }
+
+    .column-header.features {
+      border-color: #2c5282;
+    }
+
+    .column-header.bugs {
+      border-color: #c53030;
+    }
+
+    .column-header.old {
+      border-color: #4a5568;
+    }
+
+    /* Status view columns */
+    .column-header.critical {
+      border-color: #c53030;
+    }
+
+    .column-header.warning {
+      border-color: #d69e2e;
+    }
+
+    .column-header.info {
+      border-color: #3182ce;
+    }
+
+    .column-header.success {
+      border-color: #2f855a;
+    }
+
+    .column-content {
+      flex: 1;
+      padding: 12px;
+      padding-right: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: scroll;
+      min-height: 0;
+    }
+
+    .task-card {
+      background: var(--surface-tertiary);
+      border-left: 4px solid var(--brand-primary);
+      padding: 16px 16px 28px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      overflow: visible;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .task-card:hover {
+      background: var(--surface-elevated);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      border-left-color: var(--brand-hover);
+      transform: translateZ(0) translateY(-2px);
+    }
+
+    .task-card:focus,
+    .task-card:active,
+    .task-card:focus-visible,
+    .task-card:focus-within {
+      background: var(--surface-tertiary);
+      outline: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transform: translateZ(0);
+    }
+
+    .task-card::selection,
+    .task-card *::selection {
+      background: transparent;
+    }
+
+    /* Clear Visual Hierarchy for Task Cards */
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .task-id {
+      font-weight: 600;
+      color: var(--brand-primary);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .task-priority {
+      font-weight: 600;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .task-priority.high {
+      background: #dc2626;
+      color: white;
+    }
+
+    .task-priority.medium {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .task-priority.low {
+      background: #10b981;
+      color: white;
+    }
+
+    /* Editable badge styles */
+    .task-priority.editable,
+    .task-status.editable {
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .task-priority.editable:hover,
+    .task-status.editable:hover {
+      filter: brightness(1.15);
+      transform: scale(1.05);
+    }
+
+    .task-status {
+      font-weight: 600;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 4px;
+    }
+
+    .task-status.todo {
+      background: #6b7280;
+      color: white;
+    }
+
+    .task-status.in-progress {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .task-status.review {
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .task-status.done {
+      background: #10b981;
+      color: white;
+    }
+
+    /* Inline dropdown for badge editing */
+    .badge-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1000;
+      min-width: 120px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      padding: 4px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .badge-dropdown.visible {
+      display: block;
+    }
+
+    .badge-dropdown-option {
+      display: block;
+      width: 100%;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: left;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-primary);
+      transition: background 0.1s ease;
+    }
+
+    .badge-dropdown-option:hover {
+      background: var(--bg-hover);
+    }
+
+    .badge-dropdown-option.selected {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Badge wrapper for positioning dropdown */
+    .badge-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .task-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .task-description {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .task-footer {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .task-meta {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 10px;
+      color: var(--text-subtle);
+      margin-bottom: 16px;
+      font-weight: 500;
+      padding-bottom: 14px;
+    }
+
+    .task-date,
+    .task-tags {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Clear Progress Bar Design */
+    .task-progress {
+      width: 100%;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+
+    .progress-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-subtle);
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-secondary);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-percent {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--brand-primary);
+      text-align: right;
+      margin-top: 6px;
+    }
+
+    .task-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #3b82f6 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .task-progress::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .task-progress-bar.low {
+      background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
+    }
+
+    .task-progress-bar.medium {
+      background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+    }
+
+    .task-progress-bar.high {
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+    }
+
+    .task-progress-bar.completed {
+      background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+    }
+
+    /* Expandable Task Cards */
+    .expand-toggle {
+      background: none;
+      border: none;
+      color: var(--text-subtle);
+      cursor: pointer;
+      padding: 0 4px;
+      font-size: 0.75rem;
+      margin-right: 0.25rem;
+      transition: color var(--transition-fast);
+    }
+
+    .expand-toggle:hover {
+      color: var(--text-muted);
+    }
+
+    .task-card:not(.has-subtasks) .expand-toggle {
+      display: none;
+    }
+
+    .task-expanded {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-subtle);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .task-expanded::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .task-expanded::-webkit-scrollbar-thumb {
+      background: var(--surface-elevated);
+      border-radius: 2px;
+    }
+
+    /* Structured Sections */
+    .detail-section {
+      margin-bottom: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--surface-secondary);
+      border-radius: 8px;
+      border-left: 3px solid var(--brand-primary);
+    }
+
+    .detail-section.goal {
+      border-left-color: var(--color-success);
+    }
+
+    .detail-section.priority {
+      border-left-color: var(--color-warning);
+    }
+
+    .detail-section.reference {
+      border-left-color: #8b5cf6;
+    }
+
+    .detail-section.progress {
+      border-left-color: #06b6d4;
+    }
+
+    .detail-section.notes {
+      border-left-color: var(--text-subtle);
+    }
+
+    .detail-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-subtle);
+      margin-bottom: 0.25rem;
+    }
+
+    .detail-content {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .detail-content code {
+      background: var(--surface-primary);
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      color: #f472b6;
+    }
+
+    /* Subtasks Section */
+    .task-subtasks {
+      margin-top: 0.5rem;
+    }
+
+    .subtask-header {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-subtle);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .subtask-progress {
+      font-size: 0.7rem;
+      color: var(--color-success);
+      font-weight: 600;
+    }
+
+    .subtask-category {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin: 0.5rem 0 0.25rem 0;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .subtask {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 0.15rem 0;
+      padding-left: 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .subtask-icon {
+      flex-shrink: 0;
+      width: 14px;
+      text-align: center;
+    }
+
+    .subtask.completed {
+      color: var(--color-success);
+      opacity: 0.8;
+    }
+
+    .subtask.completed .subtask-text {
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    /* Quick Stats Row */
+    .quick-stats {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      background: var(--surface-secondary);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .stat-badge.priority-high {
+      color: var(--color-danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .stat-badge.priority-medium {
+      color: var(--color-warning);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .stat-badge.subtasks {
+      color: var(--brand-primary);
+      border: 1px solid var(--brand-subtle);
+    }
+
+    /* Task Modal */
+    .task-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .task-modal.active {
+      display: flex;
+    }
+
+    .task-modal-content {
+      background: var(--surface-secondary);
+      border: 1px solid var(--border-medium);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .task-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .task-modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+      flex: 1;
+    }
+
+    .task-modal-close {
+      background: none;
+      border: none;
+      color: var(--text-subtle);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: all var(--transition-fast);
+    }
+
+    .task-modal-close:hover {
+      background: var(--surface-tertiary);
+      color: var(--text-primary);
+    }
+
+    .task-modal-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: var(--surface-primary);
+      border-radius: 10px;
+    }
+
+    .task-modal-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .task-modal-meta-label {
+      font-size: 11px;
+      color: var(--text-subtle);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .task-modal-meta-value {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .task-modal-description {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .task-modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .task-modal-btn {
+      background: var(--surface-tertiary);
+      border: 1px solid var(--border-medium);
+      color: var(--text-secondary);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all var(--transition-fast);
+    }
+
+    .task-modal-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--border-strong);
+    }
+
+    .task-modal-btn.primary {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: var(--surface-primary);
+    }
+
+    .task-modal-btn.primary:hover {
+      background: var(--brand-hover);
+      border-color: var(--brand-hover);
+    }
+
+    /* MODAL EDIT CONTROLS */
+    .modal-edit-select {
+      background: var(--surface-tertiary);
+      border: 1px solid var(--border-medium);
+      border-radius: 6px;
+      padding: 6px 10px;
+      color: var(--text-primary);
+      font-size: 13px;
+      cursor: pointer;
+      min-width: 150px;
+    }
+
+    .modal-edit-select:hover {
+      border-color: var(--brand-primary);
+    }
+
+    .modal-edit-select:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 2px var(--brand-subtle);
+    }
+
+    .modal-progress-edit {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-progress-edit input[type="range"] {
+      width: 120px;
+      height: 6px;
+      -webkit-appearance: none;
+      background: var(--surface-tertiary);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .modal-progress-edit input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--brand-primary);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .modal-progress-edit input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: var(--brand-primary);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+    }
+
+    #modalProgressValue {
+      min-width: 40px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .task-modal-sync-status {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .task-modal-sync-status.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--color-success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .task-modal-sync-status.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--color-danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .task-modal-sync-status.loading {
+      display: block;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--color-info);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    /* TEXT VIEWS */
+    .text-view {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .text-view pre {
+      background: var(--surface-secondary);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .text-view h2 {
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-direction: column;
+      color: var(--text-subtle);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    /* SCROLLBAR - Always visible */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--surface-secondary);
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface-elevated);
+      border-radius: 6px;
+      border: 2px solid var(--surface-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-subtle);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-title">📋 Task System</div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-view="kanban">
+          📋 My Tasks
+        </button>
+        <button class="nav-tab" data-view="ideas">
+          💭 Ideas
+        </button>
+        <button class="nav-tab" data-view="roadmap">
+          🗺️ Roadmap
+        </button>
+        <button class="nav-tab" data-view="archive">
+          📦 Archive
+        </button>
+        <button class="nav-tab" data-view="status">
+          📊 Status
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <div class="header">
+        <h1 id="view-title">Kanban Board</h1>
+        <div class="header-actions">
+          <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="🔍 Search tasks..."
+              oninput="handleSearch(this.value)">
+            <button class="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
+            <span id="search-results-count" class="search-results-count"></span>
+          </div>
+          <select id="type-filter" class="filter-select" onchange="applyFilters()">
+            <option value="all">All Types</option>
+            <option value="task">📋 Tasks</option>
+            <option value="bug">🐛 Bugs</option>
+            <option value="issue">⚠️ Issues</option>
+            <option value="road">🗺️ Roadmap</option>
+          </select>
+          <select id="priority-filter" class="filter-select" onchange="applyFilters()">
+            <option value="all">All Priorities</option>
+            <option value="p1">P1 / HIGH</option>
+            <option value="p2">P2 / MEDIUM</option>
+            <option value="p3">P3 / LOW</option>
+          </select>
+          <select id="sort-select" class="filter-select" onchange="applySorting()">
+            <option value="priority-desc">🔥 Priority (High→Low)</option>
+            <option value="priority-asc">Priority (Low→High)</option>
+            <option value="progress-desc">📈 Progress (High→Low)</option>
+            <option value="progress-asc">Progress (Low→High)</option>
+            <option value="date-desc">📅 Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="alpha-asc">🔤 A→Z</option>
+            <option value="alpha-desc">Z→A</option>
+          </select>
+          <button class="btn" onclick="refreshData()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <!-- STATS BAR -->
+      <div class="stats-bar" id="stats-bar">
+        <div class="stat-group">
+          <div class="stat-item">
+            <span class="stat-label">Total:</span>
+            <span class="stat-value" id="stat-total">0</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-label">To Do:</span>
+            <span class="stat-value" id="stat-todo">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">In Progress:</span>
+            <span class="stat-value" id="stat-progress">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Done:</span>
+            <span class="stat-value" id="stat-done">0</span>
+          </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-group">
+          <div class="stat-item">
+            <span class="stat-label">Tasks:</span>
+            <span class="stat-value" id="stat-tasks">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Bugs:</span>
+            <span class="stat-value" id="stat-bugs">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Issues:</span>
+            <span class="stat-value" id="stat-issues">0</span>
+          </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-progress-container">
+          <span class="stat-label">Completion:</span>
+          <div class="stat-progress-bar">
+            <div class="stat-progress-fill" id="stat-progress-fill" style="width: 0%"></div>
+          </div>
+          <span class="stat-value" id="stat-completion">0%</span>
+        </div>
+      </div>
+
+      <!-- KANBAN VIEW -->
+      <div class="view-container active" id="kanban-view">
+        <div class="kanban-board" id="kanban-board">
+          <div class="kanban-column">
+            <div class="column-header todo">📋 To Do</div>
+            <div class="column-content" id="column-todo"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header in-progress">🚀 In Progress</div>
+            <div class="column-content" id="column-in-progress"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header review">👀 Review</div>
+            <div class="column-content" id="column-review"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header done" id="done-header">
+              <span class="column-header-text">✅ Done</span>
+              <span class="collapse-count" id="done-count">0</span>
+              <button class="collapse-toggle" onclick="toggleDoneColumn()" title="Collapse/Expand">▼</button>
+            </div>
+            <div class="column-content" id="column-done"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IDEAS VIEW -->
+      <div class="view-container" id="ideas-view">
+        <div class="kanban-board" id="ideas-board">
+          <div class="kanban-column">
+            <div class="column-header raw">💭 Raw Ideas</div>
+            <div class="column-content" id="ideas-column-raw"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header developing">📝 In Development</div>
+            <div class="column-content" id="ideas-column-developing"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header ready">🎯 Ready for Review</div>
+            <div class="column-content" id="ideas-column-ready"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header promoted">✅ Promoted</div>
+            <div class="column-content" id="ideas-column-promoted"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROADMAP VIEW -->
+      <div class="view-container" id="roadmap-view">
+        <div class="kanban-board" id="roadmap-board">
+          <div class="kanban-column">
+            <div class="column-header current">🔄 Current</div>
+            <div class="column-content" id="roadmap-column-current"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header next">⏭️ Next</div>
+            <div class="column-content" id="roadmap-column-next"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header future">🔮 Future</div>
+            <div class="column-content" id="roadmap-column-future"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header completed">✅ Completed</div>
+            <div class="column-content" id="roadmap-column-completed"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARCHIVE VIEW -->
+      <div class="view-container" id="archive-view">
+        <div class="kanban-board" id="archive-board">
+          <div class="kanban-column">
+            <div class="column-header recent">📅 Recent</div>
+            <div class="column-content" id="archive-column-recent"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header features">🚀 Features</div>
+            <div class="column-content" id="archive-column-features"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header bugs">🐛 Bug Fixes</div>
+            <div class="column-content" id="archive-column-bugs"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header old">📜 Old</div>
+            <div class="column-content" id="archive-column-old"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATUS VIEW -->
+      <div class="view-container" id="status-view">
+        <div class="kanban-board" id="status-board">
+          <div class="kanban-column">
+            <div class="column-header critical">🔴 Critical</div>
+            <div class="column-content" id="status-column-critical"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header warning">🟡 Warning</div>
+            <div class="column-content" id="status-column-warning"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header info">🔵 Info</div>
+            <div class="column-content" id="status-column-info"></div>
+          </div>
+          <div class="kanban-column">
+            <div class="column-header success">🟢 Success</div>
+            <div class="column-content" id="status-column-success"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK MODAL -->
+  <div class="task-modal" id="taskModal">
+    <div class="task-modal-content">
+      <div class="task-modal-header">
+        <h2 class="task-modal-title" id="modalTitle">Task Title</h2>
+        <button class="task-modal-close" onclick="closeTaskModal()">&times;</button>
+      </div>
+
+      <div class="task-modal-meta" id="modalMeta">
+        <div class="task-modal-meta-item">
+          <span class="task-modal-meta-label">ID</span>
+          <span class="task-modal-meta-value" id="modalId">TASK-001</span>
+        </div>
+        <div class="task-modal-meta-item">
+          <span class="task-modal-meta-label">Status</span>
+          <select id="modalStatusSelect" class="modal-edit-select" onchange="updateTaskStatus()">
+            <option value="todo">📋 To Do</option>
+            <option value="in-progress">🔄 In Progress</option>
+            <option value="review">👀 Review</option>
+            <option value="done">✅ Done</option>
+          </select>
+        </div>
+        <div class="task-modal-meta-item">
+          <span class="task-modal-meta-label">Priority</span>
+          <select id="modalPrioritySelect" class="modal-edit-select" onchange="updateTaskPriority()">
+            <option value="P1">🔥 P1 / HIGH</option>
+            <option value="P2">⚡ P2 / MEDIUM</option>
+            <option value="P3">📝 P3 / LOW</option>
+          </select>
+        </div>
+        <div class="task-modal-meta-item">
+          <span class="task-modal-meta-label">Progress</span>
+          <div class="modal-progress-edit">
+            <input type="range" id="modalProgressSlider" min="0" max="100" value="0" onchange="updateTaskProgress()">
+            <span id="modalProgressValue">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-modal-description" id="modalDescription">
+        Task description will appear here...
+      </div>
+
+      <div class="task-modal-sync-status" id="modalSyncStatus"></div>
+
+      <div class="task-modal-actions">
+        <button class="task-modal-btn" onclick="closeTaskModal()">Close</button>
+        <button class="task-modal-btn primary" onclick="saveAndClose()">💾 Save & Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuration - detect if running on server
+    const isServer = window.location.hostname !== 'file://';
+    const CONFIG = {
+      basePath: isServer ? '/' : './',
+      files: {
+        masterPlan: '/docs/MASTER_PLAN.md'
+      }
+    };
+
+    // Global parsed data cache
+    let MASTER_PLAN_DATA = null;
+
+    /**
+     * Comprehensive task status parser
+     * Recognizes various status patterns from task headers
+     * Based on common conventions from TODO.md, Backlog.md, and Kanban standards
+     *
+     * Status categories:
+     * - 'done': Completed, finished, closed tasks
+     * - 'in-progress': Active work, paused, blocked, review
+     * - 'todo': Default for unrecognized or new tasks
+     */
+    function parseTaskStatus(statusText) {
+      if (!statusText) return 'todo';
+
+      const text = statusText.toUpperCase();
+
+      // Done patterns - task is completed
+      const donePatterns = [
+        'DONE', 'COMPLETE', 'COMPLETED', 'FINISHED', 'CLOSED',
+        'RESOLVED', 'FIXED', 'SHIPPED', 'RELEASED', 'MERGED',
+        '✅', '✓', '[X]', 'VERIFIED'
+      ];
+
+      // Review patterns - task needs monitoring or verification
+      const reviewPatterns = [
+        'REVIEW', 'IN REVIEW', 'TESTING', 'QA', 'UNDER REVIEW',
+        'MONITORING', 'AWAITING', 'PENDING REVIEW', 'NEEDS REVIEW',
+        '👀'
+      ];
+
+      // In-progress patterns - task is being worked on or temporarily stopped
+      const inProgressPatterns = [
+        // Active work
+        'IN PROGRESS', 'IN-PROGRESS', 'IN_PROGRESS', 'PROGRESS', 'ACTIVE', 'WORKING',
+        'WIP', 'STARTED', 'ONGOING', 'DOING',
+        // Paused/blocked states (still in-progress, just not active)
+        'PAUSED', 'PARTIAL', 'ON HOLD', 'ON-HOLD', 'HOLD', 'BLOCKED',
+        'WAITING',
+        // Emoji indicators
+        '⏳', '🔄', '⏸️', '⏸', '🚧'
+      ];
+
+      // Check done patterns FIRST (highest priority)
+      for (const pattern of donePatterns) {
+        if (text.includes(pattern)) {
+          return 'done';
+        }
+      }
+
+      // Check review patterns SECOND
+      for (const pattern of reviewPatterns) {
+        if (text.includes(pattern)) {
+          return 'review';
+        }
+      }
+
+      // Check in-progress patterns THIRD
+      for (const pattern of inProgressPatterns) {
+        if (text.includes(pattern)) {
+          return 'in-progress';
+        }
+      }
+
+      // Default to todo
+      return 'todo';
+    }
+
+    // Parse MASTER_PLAN.md and extract all sections
+    async function parseMasterPlan() {
+      try {
+        // Add cache-busting timestamp to prevent stale data
+        const cacheBuster = `?t=${Date.now()}`;
+        const response = await fetch(CONFIG.files.masterPlan + cacheBuster);
+        const content = await response.text();
+
+        const data = {
+          ideas: [],
+          roadmap: { nearTerm: [], later: [] },
+          activeWork: [],
+          bugs: [],
+          issues: [],
+          archive: []
+        };
+
+        const lines = content.split('\n');
+        let currentSection = '';
+        let currentSubSection = '';
+        let currentItem = null;
+        let inTable = false;
+        let tableHeaders = [];
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const trimmed = line.trim();
+
+          // Detect main sections
+          if (trimmed.startsWith('## Ideas')) {
+            currentSection = 'ideas';
+            currentSubSection = '';
+            continue;
+          }
+          if (trimmed.startsWith('## Roadmap')) {
+            currentSection = 'roadmap';
+            currentSubSection = '';
+            continue;
+          }
+          if (trimmed.startsWith('## Current Status')) {
+            currentSection = 'activeWork'; // Map Current Status to Active Work so tasks get picked up
+            currentSubSection = '';
+            continue;
+          }
+
+          if (trimmed.startsWith('## Active Work')) {
+            currentSection = 'activeWork';
+            currentSubSection = '';
+            continue;
+          }
+          if (trimmed.startsWith('## Known Issues')) {
+            currentSection = 'issues';
+            currentSubSection = '';
+            continue;
+          }
+          if (trimmed.startsWith('## Archive') || trimmed.startsWith('## Technical Debt')) {
+            currentSection = 'archive';
+            currentSubSection = '';
+            continue;
+          }
+
+          // Detect subsections
+          if (trimmed.startsWith('### Near-term')) {
+            currentSubSection = 'nearTerm';
+            inTable = false;
+            continue;
+          }
+          if (trimmed.startsWith('### Later')) {
+            currentSubSection = 'later';
+            inTable = false;
+            continue;
+          }
+          if (trimmed.startsWith('### Smart Group Bugs') || trimmed.startsWith('### Calendar Issues')) {
+            currentSubSection = 'bugs';
+            currentSection = 'bugs';
+            inTable = false;
+            continue;
+          }
+
+          // Parse TASK- headers in Active Work section ONLY
+          // Skip archive/Technical Debt section - those are historical completed tasks
+          // Handle strikethrough markers (~~) for completed tasks - use (?:~~)? to match 0 or 2 tildes
+          // Regex explanation:
+          // ^###             - Start with ### header
+          // \s+              - At least one space
+          // (?:~~)?          - Optional strikethrough start
+          // (?:.*?)          - Non-greedy match for any chars (emojis like ✅, 🔴, text like "BUG:")
+          // ((?:TASK|BUG|ISSUE)-\d+) - CAPTURE GROUP 1: The ID itself
+          // (?:~~)?          - Optional strikethrough end
+          if (currentSection === 'activeWork' && trimmed.match(/^###\s+(?:~~)?(?:.*?)((?:TASK|BUG|ISSUE)-\d+)(?:~~)?/)) {
+            // Save previous task's subtasks before starting new one
+            if (currentItem && currentItem.id?.match(/^(?:TASK|BUG|ISSUE)-/)) {
+              const taskIdx = data.activeWork.findIndex(t => t.id === currentItem.id);
+              if (taskIdx >= 0) {
+                data.activeWork[taskIdx].subtasks = currentItem.subtasks || [];
+                const taskStatus = data.activeWork[taskIdx].status;
+                const description = data.activeWork[taskIdx].description || '';
+
+                // Try to extract percentage from description (e.g., "61.5% reduction" or "85% complete")
+                // Handle markdown bold markers (**) around percentages
+                // Use LAST match to get most recent percentage (e.g., latest session progress)
+                const allPercentMatches = [...description.matchAll(/\*?\*?(\d+(?:\.\d+)?)\s*%\s*(?:reduction|complete|done)\*?\*?/gi)];
+                const percentMatch = allPercentMatches.length > 0 ? allPercentMatches[allPercentMatches.length - 1] : null;
+
+                // Done tasks always show 100%
+                if (taskStatus === 'done') {
+                  data.activeWork[taskIdx].progress = 100;
+                } else if (percentMatch) {
+                  // Use percentage from description if available
+                  data.activeWork[taskIdx].progress = Math.round(parseFloat(percentMatch[1]));
+                } else if (currentItem.subtasks?.length > 0) {
+                  let calculatedProgress = Math.round((currentItem.completedSubtasks || 0) / currentItem.subtasks.length * 100);
+                  // Cap at 95% for in-progress tasks to avoid false "complete" appearance
+                  if (taskStatus === 'in-progress' && calculatedProgress >= 100) {
+                    calculatedProgress = 95;
+                  }
+                  data.activeWork[taskIdx].progress = calculatedProgress;
+                } else {
+                  data.activeWork[taskIdx].progress = taskStatus === 'in-progress' ? 50 : 0;
+                }
+              }
+            }
+
+            const match = trimmed.match(/^###\s+(?:~~)?(?:.*?)((?:TASK|BUG|ISSUE)-\d+)(?:~~)?(?::| - | )?\s*(.+?)(?:\s*\(([^)]+)\))?$/);
+            if (match) {
+              // Check both parentheses status AND title for status indicators
+              // Title might contain "✅ DONE" or similar without parentheses
+              const parenStatus = match[3] ? match[3].toUpperCase() : '';
+              const titleText = match[2] ? match[2].toUpperCase() : '';
+              // Prioritize parentheses status, fallback to title status
+              let status = parseTaskStatus(parenStatus);
+              if (status === 'todo' && titleText) {
+                status = parseTaskStatus(titleText);
+              }
+              // Also check if task ID has strikethrough (~~TASK-XXX~~) - usually means done
+              const hasStrikethrough = trimmed.match(/~~(?:TASK|BUG|ISSUE)-\d+~~/);
+              if (status === 'todo' && hasStrikethrough) {
+                status = 'done';
+              }
+
+              currentItem = {
+                id: match[1],
+                subtasks: [],
+                completedSubtasks: 0
+              };
+
+              data.activeWork.push({
+                id: match[1],
+                title: match[2].trim(),
+                status: status,
+                priority: '', // Will be set by **Priority**: line if present
+                section: 'activeWork',
+                description: '',
+                subtasks: [],
+                progress: status === 'done' ? 100 : (status === 'in-progress' ? 50 : 0)
+              });
+            }
+            continue;
+          }
+
+          // Capture description content (Goal, Priority, Design Reference, etc.)
+          // Lines that are NOT bullets, tables, or headers go into description
+          if (currentSection === 'activeWork' && currentItem && trimmed) {
+            const isBullet = trimmed.startsWith('- ');
+            const isTable = trimmed.startsWith('|');
+            const isHeader = trimmed.startsWith('###') || trimmed.startsWith('##');
+            const isHorizontalRule = trimmed === '---';
+            const isComment = trimmed.startsWith('<!--');
+
+            // Extract **Priority**: line as the task's priority (don't add to description)
+            if (trimmed.startsWith('**Priority**:')) {
+              const taskIdx = data.activeWork.findIndex(t => t.id === currentItem.id);
+              if (taskIdx >= 0) {
+                const priorityValue = trimmed.replace('**Priority**:', '').trim();
+                // Extract just the priority code (P1, P2, P3) with optional level
+                const priorityMatch = priorityValue.match(/^(P[0-3](?:-(?:CRITICAL|HIGH|MEDIUM|LOW))?)/i);
+                if (priorityMatch) {
+                  data.activeWork[taskIdx].priority = priorityMatch[1].toUpperCase();
+                } else {
+                  data.activeWork[taskIdx].priority = priorityValue;
+                }
+              }
+              continue; // Don't add priority line to description
+            }
+
+            // Capture description text (Goal, Priority, Design Reference, etc.)
+            if (!isBullet && !isTable && !isHeader && !isHorizontalRule && !isComment) {
+              const taskIdx = data.activeWork.findIndex(t => t.id === currentItem.id);
+              if (taskIdx >= 0) {
+                if (data.activeWork[taskIdx].description) {
+                  data.activeWork[taskIdx].description += '\n' + trimmed;
+                } else {
+                  data.activeWork[taskIdx].description = trimmed;
+                }
+              }
+            }
+          }
+
+          // Parse ONLY checkbox-style bullet points as subtasks
+          // Regular informational bullets (like file lists) are ignored
+          // Format: - [ ] incomplete or - [x] complete
+          if (currentSection === 'activeWork' && currentItem && trimmed.startsWith('- ')) {
+            // Only count checkbox-style bullets as actual subtasks
+            const isCheckbox = trimmed.match(/^- \[[x ]\]/i);
+
+            if (isCheckbox) {
+              // Count this as a subtask
+              currentItem.subtasks.push(trimmed.substring(2));
+
+              // Check if subtask is completed
+              const isCheckedCheckbox = trimmed.match(/^- \[x\]/i);
+              if (isCheckedCheckbox) {
+                currentItem.completedSubtasks = (currentItem.completedSubtasks || 0) + 1;
+              }
+            }
+          }
+
+          // Parse table rows as subtasks (for step tables like | 1 | Description | DONE |)
+          if (currentSection === 'activeWork' && currentItem && trimmed.startsWith('|') && !trimmed.includes('---')) {
+            // Skip header rows (contain "Step" or "Description" or "Status")
+            const isHeaderRow = trimmed.toLowerCase().includes('| step') ||
+              trimmed.toLowerCase().includes('| description') ||
+              trimmed.toLowerCase().includes('| status');
+
+            if (!isHeaderRow) {
+              // Count this table row as a subtask
+              currentItem.subtasks.push(trimmed);
+
+              // Check if row is completed (DONE status in table)
+              const rowUpper = trimmed.toUpperCase();
+              if (rowUpper.includes('| DONE') || rowUpper.includes('|DONE') ||
+                rowUpper.includes('✅') || rowUpper.includes('COMPLETE')) {
+                currentItem.completedSubtasks = (currentItem.completedSubtasks || 0) + 1;
+              }
+            }
+          }
+
+          // Parse Ideas list items
+          if (currentSection === 'ideas' && trimmed.match(/^- (IDEA-\d+):/)) {
+            const match = trimmed.match(/^- (IDEA-\d+):\s*(.+)$/);
+            if (match) {
+              data.ideas.push({
+                id: match[1],
+                title: match[2].trim(),
+                status: 'raw',
+                priority: '',
+                section: 'ideas'
+              });
+            }
+            continue;
+          }
+
+          // Parse table headers
+          if (trimmed.startsWith('| ID ') || trimmed.startsWith('|----')) {
+            if (trimmed.startsWith('| ID ')) {
+              tableHeaders = trimmed.split('|').map(h => h.trim().toLowerCase()).filter(h => h);
+              // Skip Task Dependency Index tables (column 2 is "status" not "feature/title")
+              // These tables track task dependencies, not task definitions
+              const isDependencyTable = tableHeaders[1] === 'status' ||
+                tableHeaders.includes('depends') ||
+                tableHeaders.includes('blocks');
+              inTable = !isDependencyTable;
+            }
+            continue;
+          }
+
+          // Parse table rows
+          if (inTable && trimmed.startsWith('|') && !trimmed.startsWith('|--')) {
+            const cells = trimmed.split('|').map(c => c.trim()).filter(c => c);
+            if (cells.length >= 2) {
+              // Extract ID (handle strikethrough)
+              const rawId = cells[0];
+              const id = rawId.replace(/[~*`]/g, '').trim();
+              const isDone = rawId.includes('~~') ||
+                cells.some(c => c.includes('DONE') || c.includes('FIXED') || c.includes('✅'));
+
+              // Map columns based on headers
+              const item = {
+                id: id,
+                title: cells[1]?.replace(/~~/g, '').replace(/\*\*/g, '') || '',
+                status: isDone ? 'done' : 'todo',
+                priority: '',
+                notes: '',
+                section: currentSection
+              };
+
+              // Extract priority
+              const priorityCell = cells.find(c => c.match(/P[1-3]|HIGH|MEDIUM|LOW/i));
+              if (priorityCell) {
+                item.priority = priorityCell.replace(/~~/g, '').trim();
+              }
+
+              // Extract notes (usually last meaningful column)
+              if (cells.length > 2) {
+                const lastCell = cells[cells.length - 1];
+                if (!lastCell.match(/^(P[1-3]|HIGH|MEDIUM|LOW|TODO|DONE|FIXED|N\/A)$/i)) {
+                  item.notes = lastCell.replace(/~~/g, '');
+                }
+              }
+
+              // Route to correct array based on ID prefix
+              if (id.startsWith('ROAD-')) {
+                if (currentSubSection === 'later') {
+                  data.roadmap.later.push(item);
+                } else {
+                  data.roadmap.nearTerm.push(item);
+                }
+              } else if (id.startsWith('BUG-')) {
+                data.bugs.push(item);
+              } else if (id.startsWith('ISSUE-')) {
+                data.issues.push(item);
+              } else if (id.startsWith('TASK-')) {
+                // Only add if not already present (TASK headers are parsed separately with more detail)
+                const existingTask = data.activeWork.find(t => t.id === id);
+                if (!existingTask) {
+                  data.activeWork.push(item);
+                }
+              }
+            }
+          }
+        }
+
+        // Finalize last task's subtasks and progress
+        if (currentItem && currentItem.id?.match(/^(?:TASK|BUG|ISSUE)-/)) {
+          const taskIdx = data.activeWork.findIndex(t => t.id === currentItem.id);
+          if (taskIdx >= 0) {
+            data.activeWork[taskIdx].subtasks = currentItem.subtasks || [];
+            const taskStatus = data.activeWork[taskIdx].status;
+            const description = data.activeWork[taskIdx].description || '';
+
+            // Try to extract percentage from description (e.g., "61.5% reduction" or "85% complete")
+            // Handle markdown bold markers (**) around percentages
+            // Use LAST match to get most recent percentage (e.g., latest session progress)
+            const allPercentMatches = [...description.matchAll(/\*?\*?(\d+(?:\.\d+)?)\s*%\s*(?:reduction|complete|done)\*?\*?/gi)];
+            const percentMatch = allPercentMatches.length > 0 ? allPercentMatches[allPercentMatches.length - 1] : null;
+
+            // Done tasks always show 100%
+            if (taskStatus === 'done') {
+              data.activeWork[taskIdx].progress = 100;
+            } else if (percentMatch) {
+              // Use percentage from description if available
+              data.activeWork[taskIdx].progress = Math.round(parseFloat(percentMatch[1]));
+            } else if (currentItem.subtasks?.length > 0) {
+              let calculatedProgress = Math.round((currentItem.completedSubtasks || 0) / currentItem.subtasks.length * 100);
+              // Cap at 95% for in-progress tasks to avoid false "complete" appearance
+              if (taskStatus === 'in-progress' && calculatedProgress >= 100) {
+                calculatedProgress = 95;
+              }
+              data.activeWork[taskIdx].progress = calculatedProgress;
+            } else {
+              data.activeWork[taskIdx].progress = taskStatus === 'in-progress' ? 50 : 0;
+            }
+          }
+        }
+
+        MASTER_PLAN_DATA = data;
+        return data;
+      } catch (error) {
+        console.error('Error loading MASTER_PLAN.md:', error);
+        return {
+          ideas: [],
+          roadmap: { nearTerm: [], later: [] },
+          activeWork: [],
+          bugs: [],
+          issues: [],
+          archive: []
+        };
+      }
+    }
+
+    // Legacy: Parse markdown tasks from kanban.md (kept for compatibility)
+    async function parseKanbanFile() {
+      try {
+        const cacheBuster = `?t=${Date.now()}`;
+        const response = await fetch(CONFIG.files.kanban + cacheBuster);
+        const content = await response.text();
+        return parseMarkdownTasks(content);
+      } catch (error) {
+        console.error('Error loading kanban.md:', error);
+        return { todo: [], inProgress: [], review: [], done: [] };
+      }
+    }
+
+    function parseMarkdownTasks(content) {
+      const tasks = { todo: [], inProgress: [], review: [], done: [] };
+      const lines = content.split('\n');
+      let currentColumn = null;
+      let currentTask = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        // Check for column headers
+        if (line.includes('## 📋 To Do')) {
+          // Save previous task before changing column
+          if (currentTask && (currentTask.description || currentTask.meta)) {
+            tasks[currentTask.column].push(currentTask);
+            currentTask = null;
+          }
+          currentColumn = 'todo';
+        }
+        else if (line.includes('## 🚀 In Progress')) {
+          if (currentTask && (currentTask.description || currentTask.meta)) {
+            tasks[currentTask.column].push(currentTask);
+            currentTask = null;
+          }
+          currentColumn = 'inProgress';
+        }
+        else if (line.includes('## 👀 Review')) {
+          if (currentTask && (currentTask.description || currentTask.meta)) {
+            tasks[currentTask.column].push(currentTask);
+            currentTask = null;
+          }
+          currentColumn = 'review';
+        }
+        else if (line.includes('## ✅ Done')) {
+          if (currentTask && (currentTask.description || currentTask.meta)) {
+            tasks[currentTask.column].push(currentTask);
+            currentTask = null;
+          }
+          currentColumn = 'done';
+        }
+        else if (line.startsWith('### TASK-') && currentColumn) {
+          // Save previous task before starting new one
+          if (currentTask && (currentTask.description || currentTask.meta)) {
+            tasks[currentTask.column].push(currentTask);
+          }
+          const match = line.match(/### (TASK-[\w-]+) \| (.+)/);
+          if (match) {
+            currentTask = {
+              id: match[1],
+              title: match[2],
+              column: currentColumn,
+              description: '',
+              meta: ''
+            };
+          }
+        } else if (currentTask && currentColumn) {
+          // Add content to current task
+          if (line.startsWith('**') || line.startsWith('From:') || line.startsWith('Created:') || line.startsWith('Tags:')) {
+            currentTask.meta += line + '\n';
+          } else if (line.trim() && !line.startsWith('###') && !line.startsWith('##')) {
+            currentTask.description += line + '\n';
+          }
+        }
+      }
+
+      // Add the last task if there is one
+      if (currentTask && (currentTask.description || currentTask.meta)) {
+        tasks[currentTask.column].push(currentTask);
+      }
+
+      return tasks;
+    }
+
+    // Render kanban board from MASTER_PLAN.md
+    async function renderKanban() {
+      try {
+        console.log('[renderKanban] Starting render...');
+        const data = await parseMasterPlan();
+        console.log('[renderKanban] Parsed data:', {
+          activeWork: data.activeWork.length,
+          bugs: data.bugs.length,
+          sample: data.activeWork.slice(0, 3).map(t => ({ id: t.id, status: t.status }))
+        });
+
+        // Log TASK-033 specifically
+        const task033 = data.activeWork.find(t => t.id === 'TASK-033');
+        if (task033) {
+          console.log('[renderKanban] TASK-033 status:', task033.status, 'priority:', task033.priority, 'progress:', task033.progress);
+        }
+
+        // Combine active tasks into kanban columns
+        // (Roadmap items have their own dedicated Roadmap tab)
+        const allItems = [
+          ...data.activeWork,
+          ...data.bugs,
+          ...data.issues
+        ];
+
+        const tasks = {
+          todo: allItems.filter(i => {
+            // Keep in todo ONLY if progress is 0 and not marked done
+            return i.status === 'todo' && (i.progress === 0 || i.progress === undefined);
+          }),
+          inProgress: allItems.filter(i => {
+            // In progress if explicitly set OR (progress > 0 and < 100 and not done)
+            // Note: Review requires EXPLICIT assignment, never auto-promoted by progress
+            return (i.status === 'in-progress' && i.progress < 100) ||
+              (i.status === 'todo' && i.progress > 0 && i.progress < 100 && i.status !== 'review');
+          }),
+          review: allItems.filter(i => {
+            // Review ONLY if explicitly set
+            return i.status === 'review' && i.status !== 'done';
+          }),
+          done: allItems.filter(i => i.status === 'done')
+        };
+        console.log('[renderKanban] Column counts:', {
+          todo: tasks.todo.length,
+          inProgress: tasks.inProgress.length,
+          review: tasks.review.length,
+          done: tasks.done.length
+        });
+
+        const columns = {
+          todo: document.getElementById('column-todo'),
+          inProgress: document.getElementById('column-in-progress'),
+          review: document.getElementById('column-review'),
+          done: document.getElementById('column-done')
+        };
+
+        // Clear columns
+        Object.values(columns).forEach(col => col.innerHTML = '');
+
+        // Populate columns
+        for (const [column, taskList] of Object.entries(tasks)) {
+          if (taskList.length === 0) {
+            columns[column].innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><div>No tasks</div></div>';
+          } else {
+            taskList.forEach(task => {
+              const card = document.createElement('div');
+              const hasSubtasks = task.subtasks && task.subtasks.length > 0;
+              const hasExpandableContent = task.description || hasSubtasks;
+              card.className = `task-card${hasExpandableContent ? ' has-subtasks' : ''}`;
+              card.draggable = true;
+              card.setAttribute('data-id', task.id);
+
+              // Use direct properties from MASTER_PLAN parser
+              const priority = task.priority || '';
+              const priorityClass = priority.toLowerCase().includes('p1') || priority.toLowerCase().includes('high') ? 'high' :
+                priority.toLowerCase().includes('p2') || priority.toLowerCase().includes('medium') ? 'medium' : 'low';
+
+              // Get type badge based on ID prefix
+              const typeLabel = task.id.startsWith('BUG-') ? '🐛 Bug' :
+                task.id.startsWith('ISSUE-') ? '⚠️ Issue' :
+                  task.id.startsWith('ROAD-') ? '🗺️ Roadmap' :
+                    task.id.startsWith('TASK-') ? '📋 Task' : '';
+
+              // Use task's calculated progress, or default based on status
+              const progress = task.progress !== undefined ? task.progress :
+                (task.status === 'done' ? 100 : task.status === 'in-progress' ? 50 : 0);
+              const progressClass = getProgressClass(progress);
+
+              // Short description from notes only (not full description)
+              // Full description shows in expanded section
+              const description = task.notes || '';
+
+              // Get expand state from localStorage
+              const isExpanded = getExpandState(task.id);
+
+              // Build structured expanded content HTML (uses hasExpandableContent from above)
+              const expandedHtml = hasExpandableContent ? `
+              <div class="task-expanded" style="display: ${isExpanded ? 'block' : 'none'}">
+                ${buildExpandedContentHtml(task)}
+              </div>
+            ` : '';
+
+              // Get status class for badge
+              const statusClass = task.status === 'done' ? 'done' :
+                task.status === 'in-progress' ? 'in-progress' :
+                task.status === 'review' ? 'review' : 'todo';
+              const statusLabel = task.status === 'done' ? 'DONE' :
+                task.status === 'in-progress' ? 'IN PROGRESS' :
+                task.status === 'review' ? 'REVIEW' : 'TODO';
+
+              card.innerHTML = `
+              <div class="task-header">
+                <button class="expand-toggle" onclick="toggleExpand('${task.id}', event)">${isExpanded ? '▼' : '▶'}</button>
+                <div class="task-id">${task.id}</div>
+                <div class="badge-wrapper">
+                  <div class="task-status ${statusClass} editable" onclick="toggleStatusDropdown('${task.id}', event)" title="Click to change status">${statusLabel}</div>
+                  <div class="badge-dropdown status-dropdown" id="status-dropdown-${task.id}">
+                    <button class="badge-dropdown-option${task.status === 'todo' ? ' selected' : ''}" onclick="updateInlineStatus('${task.id}', 'todo', event)">📋 TODO</button>
+                    <button class="badge-dropdown-option${task.status === 'in-progress' ? ' selected' : ''}" onclick="updateInlineStatus('${task.id}', 'in-progress', event)">🔄 IN PROGRESS</button>
+                    <button class="badge-dropdown-option${task.status === 'review' ? ' selected' : ''}" onclick="updateInlineStatus('${task.id}', 'review', event)">👀 REVIEW</button>
+                    <button class="badge-dropdown-option${task.status === 'done' ? ' selected' : ''}" onclick="updateInlineStatus('${task.id}', 'done', event)">✅ DONE</button>
+                  </div>
+                </div>
+                ${priority ? `
+                <div class="badge-wrapper">
+                  <div class="task-priority ${priorityClass} editable" onclick="togglePriorityDropdown('${task.id}', event)" title="Click to change priority">${priority}</div>
+                  <div class="badge-dropdown priority-dropdown" id="priority-dropdown-${task.id}">
+                    <button class="badge-dropdown-option${priorityClass === 'high' ? ' selected' : ''}" onclick="updateInlinePriority('${task.id}', 'P1-HIGH', event)">🔴 P1-HIGH</button>
+                    <button class="badge-dropdown-option${priorityClass === 'medium' ? ' selected' : ''}" onclick="updateInlinePriority('${task.id}', 'P2-MEDIUM', event)">🟠 P2-MEDIUM</button>
+                    <button class="badge-dropdown-option${priorityClass === 'low' ? ' selected' : ''}" onclick="updateInlinePriority('${task.id}', 'P3-LOW', event)">🟢 P3-LOW</button>
+                  </div>
+                </div>
+                ` : ''}
+              </div>
+              <div class="task-title">${task.title}</div>
+              ${description ? `<div class="task-description">${description}</div>` : ''}
+              ${expandedHtml}
+              <div class="task-footer">
+                <div class="task-meta">
+                  ${typeLabel ? `<span class="task-tags">${typeLabel}</span>` : ''}
+                </div>
+                <div class="task-progress" title="Task Progress: ${progress}%">
+                  <div class="progress-label">PROGRESS</div>
+                  <div class="progress-bar">
+                    <div class="task-progress-bar ${progressClass}" style="width: ${progress}%"></div>
+                  </div>
+                  <div class="progress-percent">${progress}%</div>
+                </div>
+              </div>
+            `;
+
+              // Add click handler to show modal
+              card.addEventListener('click', (e) => {
+                console.log('Task card clicked:', task.title);
+                e.stopPropagation();
+                card.blur(); // Remove focus state
+                showTaskModal(task);
+              });
+              card.tabIndex = -1; // Prevent keyboard focus
+              columns[column].appendChild(card);
+            });
+          }
+        }
+
+        // Initialize features after render
+        loadSavedFilters();
+        applyFilters();
+        applySorting();
+        updateStats();
+        initDragAndDrop();
+        loadDoneColumnState();
+        updateDoneCount();
+      } catch (error) {
+        console.error('Error rendering kanban:', error);
+        // Show error message on page instead of white overlay
+        const board = document.getElementById('kanban-board');
+        if (board) {
+          board.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: #ef4444;">
+            <h3>⚠️ Error Loading Kanban Board</h3>
+            <p>Failed to load tasks: ${error.message}</p>
+            <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer;">Reload</button>
+          </div>
+        `;
+        }
+      }
+    }
+
+    // Load text files
+    async function loadTextFile(filename) {
+      try {
+        const cacheBuster = `?t=${Date.now()}`;
+        const response = await fetch(filename + cacheBuster);
+        const content = await response.text();
+        return content;
+      } catch (error) {
+        return `Error loading ${filename}: ${error.message}`;
+      }
+    }
+
+    // Ideas Kanban Renderer - Uses MASTER_PLAN.md ideas section
+    async function renderIdeasKanban() {
+      const columns = {
+        raw: document.getElementById('ideas-column-raw'),
+        developing: document.getElementById('ideas-column-developing'),
+        ready: document.getElementById('ideas-column-ready'),
+        promoted: document.getElementById('ideas-column-promoted')
+      };
+
+      // Clear columns
+      Object.values(columns).forEach(col => col.innerHTML = '');
+
+      try {
+        const data = MASTER_PLAN_DATA || await parseMasterPlan();
+        const ideas = data.ideas || [];
+
+        // All ideas from MASTER_PLAN go to 'raw' column by default
+        // (Future: add status field to ideas in MASTER_PLAN to categorize them)
+        const categorized = {
+          raw: ideas.filter(i => i.status === 'raw' || !i.status),
+          developing: ideas.filter(i => i.status === 'developing'),
+          ready: ideas.filter(i => i.status === 'ready'),
+          promoted: ideas.filter(i => i.status === 'promoted' || i.status === 'done')
+        };
+
+        for (const [column, ideaList] of Object.entries(categorized)) {
+          if (ideaList.length === 0) {
+            columns[column].innerHTML = '<div class="empty-state"><div class="empty-state-icon">💭</div><div>No ideas</div></div>';
+          } else {
+            ideaList.forEach(idea => {
+              const card = document.createElement('div');
+              card.className = 'task-card';
+              card.innerHTML = `
+                <div class="task-header">
+                  <div class="task-id">${idea.id}</div>
+                  ${idea.priority ? `<div class="task-priority">${idea.priority}</div>` : ''}
+                </div>
+                <div class="task-title">${idea.title}</div>
+                ${idea.description ? `<div class="task-description">${idea.description}</div>` : ''}
+                <div class="task-footer">
+                  <div class="task-meta">
+                    <span class="task-tags">💡 Idea</span>
+                  </div>
+                </div>
+              `;
+              card.addEventListener('click', () => showTaskModal(idea));
+              columns[column].appendChild(card);
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error loading ideas:', error);
+        Object.values(columns).forEach(col => {
+          col.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><div>Error loading ideas</div></div>';
+        });
+      }
+    }
+
+    function parseIdeasMarkdown(content) {
+      const ideas = { raw: [], developing: [], ready: [], promoted: [] };
+      const lines = content.split('\n');
+      let currentSection = '';
+      let currentIdea = null;
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+
+        // Section headers
+        if (trimmed.startsWith('## Raw Ideas')) currentSection = 'raw';
+        else if (trimmed.startsWith('## In Development')) currentSection = 'developing';
+        else if (trimmed.startsWith('## Ready for Review')) currentSection = 'ready';
+        else if (trimmed.startsWith('## Promoted')) currentSection = 'promoted';
+
+        // Idea headers (### IDEA-XXX | Title)
+        else if (trimmed.startsWith('### ') && currentSection) {
+          if (currentIdea) {
+            ideas[currentIdea.section].push(currentIdea);
+          }
+          const match = trimmed.match(/### (IDEA-\d+) \| (.+)/);
+          if (match) {
+            currentIdea = {
+              id: match[1],
+              title: match[2],
+              section: currentSection,
+              description: '',
+              priority: '',
+              tags: '',
+              captured: ''
+            };
+          }
+        }
+
+        // Metadata
+        else if (currentIdea && trimmed.startsWith('**Priority**:')) {
+          currentIdea.priority = trimmed.replace('**Priority**:', '').trim();
+        }
+        else if (currentIdea && trimmed.startsWith('**Tags**:')) {
+          currentIdea.tags = trimmed.replace('**Tags**:', '').trim();
+        }
+        else if (currentIdea && trimmed.startsWith('**Captured**:')) {
+          currentIdea.captured = trimmed.replace('**Captured**:', '').trim();
+        }
+
+        // Description (non-metadata lines after idea header)
+        else if (currentIdea && trimmed && !trimmed.startsWith('**') && !trimmed.startsWith('#')) {
+          if (currentIdea.description) currentIdea.description += ' ';
+          currentIdea.description += trimmed;
+        }
+      }
+
+      // Don't forget the last idea
+      if (currentIdea) {
+        ideas[currentIdea.section].push(currentIdea);
+      }
+
+      return ideas;
+    }
+
+    // Roadmap Kanban Renderer - Uses MASTER_PLAN.md roadmap section
+    async function renderRoadmapKanban() {
+      const columns = {
+        current: document.getElementById('roadmap-column-current'),
+        next: document.getElementById('roadmap-column-next'),
+        future: document.getElementById('roadmap-column-future'),
+        completed: document.getElementById('roadmap-column-completed')
+      };
+
+      // Clear columns
+      Object.values(columns).forEach(col => col.innerHTML = '');
+
+      try {
+        const data = MASTER_PLAN_DATA || await parseMasterPlan();
+        const nearTerm = data.roadmap?.nearTerm || [];
+        const later = data.roadmap?.later || [];
+
+        // Categorize roadmap items
+        const roadmap = {
+          current: nearTerm.filter(i => i.status !== 'done' && (i.priority?.includes('P1') || i.priority?.includes('HIGH'))),
+          next: nearTerm.filter(i => i.status !== 'done' && (i.priority?.includes('P2') || i.priority?.includes('MEDIUM'))),
+          future: later.filter(i => i.status !== 'done'),
+          completed: [...nearTerm, ...later].filter(i => i.status === 'done')
+        };
+
+        for (const [column, items] of Object.entries(roadmap)) {
+          if (items.length === 0) {
+            columns[column].innerHTML = '<div class="empty-state"><div class="empty-state-icon">🗺️</div><div>Nothing planned</div></div>';
+          } else {
+            items.forEach(item => {
+              const card = document.createElement('div');
+              card.className = 'task-card';
+              const priorityClass = item.priority?.includes('P1') || item.priority?.includes('HIGH') ? 'high' :
+                item.priority?.includes('P2') || item.priority?.includes('MEDIUM') ? 'medium' : 'low';
+
+              card.innerHTML = `
+                <div class="task-header">
+                  <div class="task-id">${item.id}</div>
+                  ${item.priority ? `<div class="task-priority ${priorityClass}">${item.priority}</div>` : ''}
+                </div>
+                <div class="task-title">${item.title}</div>
+                ${item.notes ? `<div class="task-description">${item.notes}</div>` : ''}
+                <div class="task-footer">
+                  <div class="task-meta">
+                    <span class="task-tags">🗺️ Roadmap</span>
+                  </div>
+                </div>
+              `;
+              card.addEventListener('click', () => showTaskModal(item));
+              columns[column].appendChild(card);
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error loading roadmap:', error);
+        Object.values(columns).forEach(col => {
+          col.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><div>Error loading roadmap</div></div>';
+        });
+      }
+    }
+
+    function parseRoadmapMarkdown(content) {
+      const roadmap = { current: [], next: [], future: [], completed: [] };
+      const lines = content.split('\n');
+      let currentSection = '';
+      let currentItem = null;
+      let parentVersion = '';
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+
+        // Section headers
+        if (trimmed.startsWith('## Current Sprint')) { currentSection = 'current'; parentVersion = trimmed.match(/\((.*?)\)/)?.[1] || 'Current'; }
+        else if (trimmed.startsWith('## Next Sprint')) { currentSection = 'next'; parentVersion = trimmed.match(/\((.*?)\)/)?.[1] || 'Next'; }
+        else if (trimmed.startsWith('## Future')) { currentSection = 'future'; parentVersion = trimmed.match(/\((.*?)\)/)?.[1] || 'Future'; }
+        else if (trimmed.startsWith('## Completed')) { currentSection = 'completed'; parentVersion = trimmed.match(/\((.*?)\)/)?.[1] || 'Done'; }
+
+        // Item headers (### Title)
+        else if (trimmed.startsWith('### ') && currentSection) {
+          if (currentItem) {
+            roadmap[currentItem.section].push(currentItem);
+          }
+          currentItem = {
+            title: trimmed.replace('### ', ''),
+            section: currentSection,
+            version: parentVersion,
+            description: '',
+            priority: '',
+            status: '',
+            target: ''
+          };
+        }
+
+        // Metadata
+        else if (currentItem && trimmed.startsWith('**Priority**:')) {
+          currentItem.priority = trimmed.replace('**Priority**:', '').trim();
+        }
+        else if (currentItem && trimmed.startsWith('**Status**:')) {
+          currentItem.status = trimmed.replace('**Status**:', '').trim();
+        }
+        else if (currentItem && trimmed.startsWith('**Target**:')) {
+          currentItem.target = trimmed.replace('**Target**:', '').trim();
+        }
+        else if (currentItem && trimmed.startsWith('**Completed**:')) {
+          currentItem.target = '✅ ' + trimmed.replace('**Completed**:', '').trim();
+        }
+
+        // Description
+        else if (currentItem && trimmed && !trimmed.startsWith('**') && !trimmed.startsWith('#')) {
+          if (currentItem.description) currentItem.description += ' ';
+          currentItem.description += trimmed;
+        }
+      }
+
+      // Don't forget the last item
+      if (currentItem) {
+        roadmap[currentItem.section].push(currentItem);
+      }
+
+      return roadmap;
+    }
+
+    // Archive Kanban Renderer - Shows completed items from MASTER_PLAN.md
+    async function renderArchiveKanban() {
+      const data = MASTER_PLAN_DATA || await parseMasterPlan();
+
+      // Collect all completed items
+      const completedTasks = [
+        ...data.activeWork.filter(i => i.status === 'done'),
+        ...data.bugs.filter(i => i.status === 'done'),
+        ...data.issues.filter(i => i.status === 'done'),
+        ...data.roadmap.nearTerm.filter(i => i.status === 'done'),
+        ...data.roadmap.later.filter(i => i.status === 'done')
+      ];
+
+      const columns = {
+        recent: document.getElementById('archive-column-recent'),
+        features: document.getElementById('archive-column-features'),
+        bugs: document.getElementById('archive-column-bugs'),
+        old: document.getElementById('archive-column-old')
+      };
+
+      // Clear columns
+      Object.values(columns).forEach(col => col.innerHTML = '');
+
+      // Sort completed tasks into categories based on ID prefix
+      const categorized = {
+        recent: [],
+        features: [],
+        bugs: [],
+        old: []
+      };
+
+      completedTasks.forEach(task => {
+        if (task.id.startsWith('BUG-')) {
+          categorized.bugs.push(task);
+        } else if (task.id.startsWith('TASK-') || task.id.startsWith('ROAD-')) {
+          categorized.features.push(task);
+        } else {
+          categorized.recent.push(task);
+        }
+      });
+
+      // Render each category
+      for (const [column, taskList] of Object.entries(categorized)) {
+        if (taskList.length === 0) {
+          columns[column].innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><div>No tasks</div></div>';
+        } else {
+          taskList.forEach(task => {
+            const card = document.createElement('div');
+            card.className = 'task-card';
+
+            const priority = task.priority || '';
+            const priorityClass = priority.toLowerCase().includes('p1') || priority.toLowerCase().includes('high') ? 'high' :
+              priority.toLowerCase().includes('p2') || priority.toLowerCase().includes('medium') ? 'medium' : 'low';
+
+            // Get type badge based on ID prefix
+            const typeLabel = task.id.startsWith('BUG-') ? '🐛 Bug Fixed' :
+              task.id.startsWith('ROAD-') ? '🗺️ Roadmap' :
+                task.id.startsWith('TASK-') ? '✅ Task' : '✅ Done';
+
+            card.innerHTML = `
+              <div class="task-header">
+                <div class="task-id">${task.id}</div>
+                ${priority ? `<div class="task-priority ${priorityClass}">${priority}</div>` : ''}
+              </div>
+              <div class="task-title">${task.title}</div>
+              ${task.notes ? `<div class="task-description">${task.notes}</div>` : ''}
+              <div class="task-footer">
+                <div class="task-meta">
+                  <span class="task-tags">${typeLabel}</span>
+                </div>
+              </div>
+            `;
+            card.addEventListener('click', () => showTaskModal(task));
+            columns[column].appendChild(card);
+          });
+        }
+      }
+    }
+
+    // Status Kanban Renderer - Groups tasks by priority from MASTER_PLAN.md
+    async function renderStatusKanban() {
+      const data = MASTER_PLAN_DATA || await parseMasterPlan();
+
+      // Combine all active items (exclude done items)
+      const allTasks = [
+        ...data.activeWork.filter(i => i.status !== 'done'),
+        ...data.bugs.filter(i => i.status !== 'done'),
+        ...data.issues.filter(i => i.status !== 'done'),
+        ...data.roadmap.nearTerm.filter(i => i.status !== 'done')
+      ];
+
+      const columns = {
+        critical: document.getElementById('status-column-critical'),
+        warning: document.getElementById('status-column-warning'),
+        info: document.getElementById('status-column-info'),
+        success: document.getElementById('status-column-success')
+      };
+
+      // Clear columns
+      Object.values(columns).forEach(col => col.innerHTML = '');
+
+      // Sort tasks by priority
+      const byPriority = {
+        critical: [],
+        warning: [],
+        info: [],
+        success: []
+      };
+
+      allTasks.forEach(task => {
+        const priority = (task.priority || '').toLowerCase();
+
+        if (priority.includes('p1') || priority.includes('high')) {
+          byPriority.critical.push(task);
+        } else if (priority.includes('p2') || priority.includes('medium')) {
+          byPriority.warning.push(task);
+        } else if (priority.includes('p3') || priority.includes('low')) {
+          byPriority.info.push(task);
+        } else {
+          byPriority.success.push(task);
+        }
+      });
+
+      // Render each priority level
+      for (const [column, taskList] of Object.entries(byPriority)) {
+        if (taskList.length === 0) {
+          columns[column].innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><div>No tasks</div></div>';
+        } else {
+          taskList.forEach(task => {
+            const card = document.createElement('div');
+            card.className = 'task-card';
+
+            // Get type badge based on ID prefix
+            const typeLabel = task.id.startsWith('BUG-') ? '🐛 Bug' :
+              task.id.startsWith('ISSUE-') ? '⚠️ Issue' :
+                task.id.startsWith('TASK-') ? '📋 Task' :
+                  task.id.startsWith('ROAD-') ? '🗺️ Roadmap' : '';
+
+            // Status badge
+            const statusLabel = task.status === 'in-progress' ? 'In Progress' : task.status === 'todo' ? 'To Do' : task.status;
+
+            card.innerHTML = `
+              <div class="task-header">
+                <div class="task-id">${task.id}</div>
+                <div class="task-priority" style="background: #4a5568;">${statusLabel}</div>
+              </div>
+              <div class="task-title">${task.title}</div>
+              ${task.notes ? `<div class="task-description">${task.notes}</div>` : ''}
+              <div class="task-footer">
+                <div class="task-meta">
+                  <span class="task-tags">${typeLabel}</span>
+                </div>
+              </div>
+            `;
+            card.addEventListener('click', () => showTaskModal(task));
+            columns[column].appendChild(card);
+          });
+        }
+      }
+    }
+
+    // Parser functions
+    function parseIdeasFile(content) {
+      const ideas = { raw: [], developing: [], ready: [], promoted: [] };
+      const lines = content.split('\n');
+      let currentSection = '';
+      let currentIdea = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        if (line.startsWith('## 💭 Raw Ideas')) currentSection = 'raw';
+        else if (line.startsWith('## 📝 In Development')) currentSection = 'developing';
+        else if (line.startsWith('## 🎯 Ready for Review')) currentSection = 'ready';
+        else if (line.startsWith('## ✅ Promoted')) currentSection = 'promoted';
+        else if (line.startsWith('### IDEA-') && currentSection) {
+          const match = line.match(/### (IDEA-[\w-]+) \| (.+)/);
+          if (match) {
+            currentIdea = {
+              id: match[1],
+              title: match[2],
+              section: currentSection,
+              description: '',
+              meta: ''
+            };
+          }
+        } else if (currentIdea && currentSection) {
+          if (line.startsWith('**') || line.startsWith('Captured:') || line.startsWith('Priority:') || line.startsWith('Tags:')) {
+            currentIdea.meta += line + '\n';
+          } else if (line.trim() && !line.startsWith('###')) {
+            currentIdea.description += line + '\n';
+          }
+        }
+
+        if (currentIdea && (line.startsWith('### ') || line.startsWith('## ') || i === lines.length - 1)) {
+          if (currentIdea.description || currentIdea.meta) {
+            ideas[currentSection].push(currentIdea);
+            currentIdea = null;
+          }
+        }
+      }
+
+      if (currentIdea && (currentIdea.description || currentIdea.meta)) {
+        ideas[currentSection].push(currentIdea);
+      }
+
+      return ideas;
+    }
+
+    function parseRoadmapFile(content) {
+      const roadmap = { current: [], next: [], future: [], completed: [] };
+      const lines = content.split('\n');
+      let currentSection = '';
+      let currentVersion = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        if (line.includes('Current Development')) currentSection = 'current';
+        else if (line.includes('Next') || line.includes('Upcoming')) currentSection = 'next';
+        else if (line.includes('Future') || line.includes('Later')) currentSection = 'future';
+        else if (line.includes('Completed') || line.includes('Done')) currentSection = 'completed';
+        else if (line.startsWith('## ') && currentSection) {
+          currentVersion = {
+            title: line.replace('##', '').trim(),
+            section: currentSection,
+            description: '',
+            meta: ''
+          };
+        } else if (currentVersion && currentSection) {
+          if (line.trim() && !line.startsWith('##')) {
+            currentVersion.description += line + '\n';
+          }
+        }
+
+        if (currentVersion && (line.startsWith('## ') || i === lines.length - 1)) {
+          if (currentVersion.description) {
+            roadmap[currentSection].push(currentVersion);
+            currentVersion = null;
+          }
+        }
+      }
+
+      if (currentVersion && currentVersion.description) {
+        roadmap[currentSection].push(currentVersion);
+      }
+
+      return roadmap;
+    }
+
+    function parseArchiveFile(content) {
+      return parseKanbanFile(content); // Same format as kanban
+    }
+
+    function parseStatusFile(content) {
+      const status = { critical: [], warning: [], info: [], success: [] };
+      const lines = content.split('\n');
+      let currentItem = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        if (line.includes('🔴') || line.includes('Critical') || line.includes('Emergency')) {
+          currentItem = { id: `CRITICAL-${i}`, title: line, section: 'critical', description: '', type: 'critical' };
+        } else if (line.includes('🟡') || line.includes('Warning') || line.includes('At Risk')) {
+          currentItem = { id: `WARNING-${i}`, title: line, section: 'warning', description: '', type: 'warning' };
+        } else if (line.includes('🔵') || line.includes('Info') || line.includes('Note')) {
+          currentItem = { id: `INFO-${i}`, title: line, section: 'info', description: '', type: 'info' };
+        } else if (line.includes('🟢') || line.includes('Success') || line.includes('Complete')) {
+          currentItem = { id: `SUCCESS-${i}`, title: line, section: 'success', description: '', type: 'success' };
+        } else if (currentItem && line.trim()) {
+          currentItem.description += line + '\n';
+        }
+
+        if (currentItem && (line.includes('🔴') || line.includes('🟡') || line.includes('🔵') || line.includes('🟢') || i === lines.length - 1)) {
+          if (currentItem.description || currentItem.title) {
+            status[currentItem.section].push(currentItem);
+            currentItem = null;
+          }
+        }
+      }
+
+      if (currentItem && (currentItem.description || currentItem.title)) {
+        status[currentItem.section].push(currentItem);
+      }
+
+      return status;
+    }
+
+    // Card creation functions
+    function createIdeaCard(idea) {
+      const card = document.createElement('div');
+      card.className = 'task-card';
+      card.draggable = true;
+
+      const priorityMatch = idea.meta.match(/\*\*Priority\*\*: (.+?)(?:\s|$)/);
+      const tagsMatch = idea.meta.match(/\*\*Tags\*\*: (.+)/);
+      const capturedMatch = idea.meta.match(/\*\*Captured\*\*: (.+?)(?:\s|$)/);
+
+      const priority = priorityMatch ? priorityMatch[1] : '';
+      const tags = tagsMatch ? tagsMatch[1] : '';
+      const captured = capturedMatch ? capturedMatch[1] : new Date().toLocaleDateString();
+
+      const progress = getTaskProgress(idea.section);
+      const progressClass = getProgressClass(progress);
+
+      card.innerHTML = `
+        <div class="task-id">${idea.id} ${priority}</div>
+        <div class="task-title">${idea.title}</div>
+        <div class="task-meta">
+          <span>📅 ${captured}</span>
+          <span>${tags}</span>
+        </div>
+        <div class="task-progress">
+          <div class="task-progress-bar ${progressClass}" style="width: ${progress}%"></div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => showTaskModal(idea));
+      return card;
+    }
+
+    function createVersionCard(version) {
+      const card = document.createElement('div');
+      card.className = 'task-card';
+      card.draggable = true;
+
+      const progress = getTaskProgress(version.section);
+      const progressClass = getProgressClass(progress);
+
+      card.innerHTML = `
+        <div class="task-id">VERSION</div>
+        <div class="task-title">${version.title}</div>
+        <div class="task-meta">
+          <span>📋 ${version.section}</span>
+        </div>
+        <div class="task-progress">
+          <div class="task-progress-bar ${progressClass}" style="width: ${progress}%"></div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => showTaskModal(version));
+      return card;
+    }
+
+    function createStatusCard(item) {
+      const card = document.createElement('div');
+      card.className = 'task-card';
+      card.draggable = true;
+
+      const icon = item.type === 'critical' ? '🔴' : item.type === 'warning' ? '🟡' : item.type === 'info' ? '🔵' : '🟢';
+
+      const progress = getTaskProgress(item.section);
+      const progressClass = getProgressClass(progress);
+
+      card.innerHTML = `
+        <div class="task-id">${item.id}</div>
+        <div class="task-title">${icon} ${item.title}</div>
+        <div class="task-meta">
+          <span>Status: ${item.section}</span>
+        </div>
+        <div class="task-progress">
+          <div class="task-progress-bar ${progressClass}" style="width: ${progress}%"></div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => showTaskModal(item));
+      return card;
+    }
+
+    // Progress and Modal Helper Functions
+    function getTaskProgress(column) {
+      const progressMap = {
+        'todo': 0,
+        'raw': 10,
+        'developing': 35,
+        'current': 40,
+        'next': 60,
+        'future': 75,
+        'in-progress': 75,
+        'review': 85,
+        'ready': 90,
+        'recent': 90,
+        'done': 100,
+        'completed': 100,
+        'promoted': 100
+      };
+      return progressMap[column] || 50;
+    }
+
+    function getProgressClass(progress) {
+      if (progress === 0) return 'low';
+      if (progress <= 33) return 'low';
+      if (progress <= 66) return 'medium';
+      if (progress < 100) return 'high';
+      return 'completed';
+    }
+
+    // Track current task being edited
+    let currentEditTask = null;
+    let pendingChanges = {};
+
+    function showTaskModal(item) {
+      console.log('Opening modal for item:', item);
+      currentEditTask = item;
+      pendingChanges = {};
+
+      const modal = document.getElementById('taskModal');
+
+      // Update modal content
+      document.getElementById('modalTitle').textContent = item.title;
+      document.getElementById('modalId').textContent = item.id || 'N/A';
+
+      // Set status dropdown
+      const statusSelect = document.getElementById('modalStatusSelect');
+      statusSelect.value = item.status || 'todo';
+      console.log('[Modal] Status select initial value:', statusSelect.value);
+
+      // Set priority dropdown
+      const prioritySelect = document.getElementById('modalPrioritySelect');
+      const priority = extractPriority(item) || 'P2';
+      prioritySelect.value = priority.toUpperCase().replace(/HIGH|CRITICAL/, 'P1').replace(/MEDIUM/, 'P2').replace(/LOW/, 'P3');
+      if (!['P1', 'P2', 'P3'].includes(prioritySelect.value)) {
+        prioritySelect.value = 'P2';
+      }
+      console.log('[Modal] Priority select initial value:', prioritySelect.value);
+
+      // Re-attach event listeners (in case inline handlers aren't working)
+      statusSelect.onchange = function() {
+        console.log('[Modal] Status onchange fired!');
+        updateTaskStatus();
+      };
+      prioritySelect.onchange = function() {
+        console.log('[Modal] Priority onchange fired!');
+        updateTaskPriority();
+      };
+
+      // Debug: Add click listener to verify interaction
+      statusSelect.onclick = function() {
+        console.log('[Modal] Status select clicked');
+      };
+      prioritySelect.onclick = function() {
+        console.log('[Modal] Priority select clicked');
+      };
+
+      // Set progress slider
+      const progress = item.progress !== undefined ? item.progress : (item.status === 'done' ? 100 : 0);
+      document.getElementById('modalProgressSlider').value = progress;
+      document.getElementById('modalProgressValue').textContent = progress + '%';
+
+      // Use structured HTML rendering for description
+      const descElement = document.getElementById('modalDescription');
+      if (item.description || (item.subtasks && item.subtasks.length > 0)) {
+        descElement.innerHTML = buildExpandedContentHtml(item);
+      } else {
+        descElement.textContent = 'No description available.';
+      }
+
+      // Clear sync status
+      const syncStatus = document.getElementById('modalSyncStatus');
+      syncStatus.className = 'task-modal-sync-status';
+      syncStatus.textContent = '';
+
+      // Show modal
+      modal.classList.add('active');
+
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTaskModal() {
+      const modal = document.getElementById('taskModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      currentEditTask = null;
+      pendingChanges = {};
+    }
+
+    // API base URL - uses current origin when running on server
+    const API_BASE = window.location.origin;
+
+    // Update task status via API
+    async function updateTaskStatus() {
+      console.log('[Modal] updateTaskStatus called');
+      if (!currentEditTask) {
+        console.log('[Modal] No currentEditTask!');
+        return;
+      }
+
+      const newStatus = document.getElementById('modalStatusSelect').value;
+      console.log(`[Modal] Updating ${currentEditTask.id} status to: ${newStatus}`);
+      pendingChanges.status = newStatus;
+      showSyncStatus('loading', 'Saving status...');
+
+      try {
+        console.log(`[Modal] Calling API: ${API_BASE}/api/task/${currentEditTask.id}/status`);
+        const response = await fetch(`${API_BASE}/api/task/${currentEditTask.id}/status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        console.log(`[Modal] Response status: ${response.status}`);
+        const result = await response.json();
+        console.log(`[Modal] Response:`, result);
+        if (result.success) {
+          showSyncStatus('success', `✓ Status updated to ${newStatus}`);
+          currentEditTask.status = newStatus;
+          // Refresh the kanban to reflect changes from MASTER_PLAN.md
+          setTimeout(() => renderKanban(), 500);
+        } else {
+          showSyncStatus('error', `✗ ${result.error || 'Failed to update status'}`);
+        }
+      } catch (error) {
+        console.error(`[Modal] Error:`, error);
+        showSyncStatus('error', `✗ Server not running. Start with: cd dev-manager && npm start`);
+      }
+    }
+
+    // Update task priority via API
+    async function updateTaskPriority() {
+      console.log('[Modal] updateTaskPriority called');
+      if (!currentEditTask) {
+        console.log('[Modal] No currentEditTask!');
+        return;
+      }
+
+      const newPriority = document.getElementById('modalPrioritySelect').value;
+      console.log(`[Modal] Updating ${currentEditTask.id} priority to: ${newPriority}`);
+      pendingChanges.priority = newPriority;
+      showSyncStatus('loading', 'Saving priority...');
+
+      try {
+        const response = await fetch(`${API_BASE}/api/task/${currentEditTask.id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ property: 'priority', value: newPriority })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          showSyncStatus('success', `✓ Priority updated to ${newPriority}`);
+          currentEditTask.priority = newPriority;
+          // Update card display immediately
+          const card = document.querySelector(`[data-task-id="${currentEditTask.id}"]`);
+          if (card) {
+            const priorityEl = card.querySelector('.task-priority');
+            if (priorityEl) {
+              priorityEl.textContent = newPriority;
+              priorityEl.className = 'task-priority ' + getPriorityClass(newPriority);
+            }
+          }
+          // Refresh the kanban to reflect changes from MASTER_PLAN.md
+          setTimeout(() => renderKanban(), 500);
+        } else {
+          showSyncStatus('error', `✗ ${result.error || 'Failed to update priority'}`);
+        }
+      } catch (error) {
+        showSyncStatus('error', `✗ Server not running. Start with: cd dev-manager && npm start`);
+      }
+    }
+
+    function getPriorityClass(priority) {
+      const p = (priority || '').toLowerCase();
+      if (p.includes('p1') || p.includes('high')) return 'high';
+      if (p.includes('p2') || p.includes('medium')) return 'medium';
+      return 'low';
+    }
+
+    // ===== INLINE BADGE EDITING =====
+
+    // Close all dropdowns
+    function closeAllDropdowns() {
+      document.querySelectorAll('.badge-dropdown').forEach(d => d.classList.remove('visible'));
+    }
+
+    // Toggle status dropdown
+    function toggleStatusDropdown(taskId, event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById(`status-dropdown-${taskId}`);
+      const wasVisible = dropdown.classList.contains('visible');
+      closeAllDropdowns();
+      if (!wasVisible) {
+        dropdown.classList.add('visible');
+      }
+    }
+
+    // Toggle priority dropdown
+    function togglePriorityDropdown(taskId, event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById(`priority-dropdown-${taskId}`);
+      const wasVisible = dropdown.classList.contains('visible');
+      closeAllDropdowns();
+      if (!wasVisible) {
+        dropdown.classList.add('visible');
+      }
+    }
+
+    // Update status inline (from badge dropdown)
+    async function updateInlineStatus(taskId, newStatus, event) {
+      console.log(`[InlineStatus] Updating ${taskId} to ${newStatus}`);
+      event.stopPropagation();
+      closeAllDropdowns();
+
+      // Show loading indicator
+      const dropdownEl = document.querySelector(`#status-dropdown-${taskId}`);
+      if (!dropdownEl) {
+        console.error(`[InlineStatus] Dropdown not found for ${taskId}`);
+        showToast(`✗ Dropdown not found for ${taskId}`, 'error');
+        return;
+      }
+      const badge = dropdownEl.previousElementSibling;
+      const originalText = badge.textContent;
+      badge.textContent = '...';
+
+      try {
+        console.log(`[InlineStatus] Calling API: ${API_BASE}/api/task/${taskId}/status`);
+        const response = await fetch(`${API_BASE}/api/task/${taskId}/status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        const result = await response.json();
+        console.log(`[InlineStatus] API response:`, result);
+        if (result.success) {
+          showToast(`✓ ${taskId} status → ${newStatus.toUpperCase()}`, 'success');
+          // Refresh kanban to move card to correct column
+          console.log(`[InlineStatus] Refreshing kanban in 300ms...`);
+          setTimeout(() => {
+            console.log(`[InlineStatus] Calling renderKanban()`);
+            renderKanban();
+          }, 300);
+        } else {
+          badge.textContent = originalText;
+          showToast(`✗ ${result.error || 'Failed to update status'}`, 'error');
+        }
+      } catch (error) {
+        console.error(`[InlineStatus] Error:`, error);
+        badge.textContent = originalText;
+        showToast('✗ Server not running. Start with: cd dev-manager && npm start', 'error');
+      }
+    }
+
+    // Update priority inline (from badge dropdown)
+    async function updateInlinePriority(taskId, newPriority, event) {
+      event.stopPropagation();
+      closeAllDropdowns();
+
+      // Show loading indicator
+      const badge = document.querySelector(`#priority-dropdown-${taskId}`).previousElementSibling;
+      const originalText = badge.textContent;
+      badge.textContent = '...';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/task/${taskId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ property: 'priority', value: newPriority })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          showToast(`✓ ${taskId} priority → ${newPriority}`, 'success');
+          // Update badge immediately
+          badge.textContent = newPriority;
+          badge.className = 'task-priority ' + getPriorityClass(newPriority) + ' editable';
+          // Refresh to update any sorting
+          setTimeout(() => renderKanban(), 500);
+        } else {
+          badge.textContent = originalText;
+          showToast(`✗ ${result.error || 'Failed to update priority'}`, 'error');
+        }
+      } catch (error) {
+        badge.textContent = originalText;
+        showToast('✗ Server not running. Start with: cd dev-manager && npm start', 'error');
+      }
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.badge-wrapper')) {
+        closeAllDropdowns();
+      }
+    });
+
+    // ===== END INLINE BADGE EDITING =====
+
+    // Update progress slider display (live)
+    function updateTaskProgress() {
+      const slider = document.getElementById('modalProgressSlider');
+      const valueDisplay = document.getElementById('modalProgressValue');
+      valueDisplay.textContent = slider.value + '%';
+      pendingChanges.progress = parseInt(slider.value);
+    }
+
+    // Save and close
+    async function saveAndClose() {
+      showSyncStatus('success', '✓ Changes saved to MASTER_PLAN.md');
+      setTimeout(() => {
+        closeTaskModal();
+        refreshData(); // Reload kanban to reflect changes
+      }, 800);
+    }
+
+    // Show sync status message
+    function showSyncStatus(type, message) {
+      const syncStatus = document.getElementById('modalSyncStatus');
+      syncStatus.className = `task-modal-sync-status ${type}`;
+      syncStatus.textContent = message;
+    }
+
+    function formatStatus(status) {
+      const statusMap = {
+        'todo': 'To Do',
+        'in-progress': 'In Progress',
+        'review': 'Review',
+        'done': 'Completed',
+        'raw': 'Raw Idea',
+        'developing': 'In Development',
+        'ready': 'Ready for Review',
+        'promoted': 'Promoted',
+        'current': 'Current',
+        'next': 'Next',
+        'future': 'Future',
+        'completed': 'Completed',
+        'recent': 'Recent',
+        'critical': 'Critical Issue',
+        'warning': 'Warning',
+        'info': 'Information',
+        'success': 'Success'
+      };
+      return statusMap[status] || status;
+    }
+
+    function extractPriority(item) {
+      if (item.priority) return item.priority;
+      if (item.meta) {
+        const priorityMatch = item.meta.match(/\*\*Priority\*\*: (.+?)(?:\s|$)/);
+        if (priorityMatch) return priorityMatch[1];
+      }
+      return 'Medium';
+    }
+
+    function extractCreated(item) {
+      if (item.created) return item.created;
+      if (item.meta) {
+        const createdMatch = item.meta.match(/\*\*Created\*\*: (.+?)(?:\s|$)/);
+        if (createdMatch) return createdMatch[1];
+        const capturedMatch = item.meta.match(/\*\*Captured\*\*: (.+?)(?:\s|$)/);
+        if (capturedMatch) return capturedMatch[1];
+      }
+      return new Date().toLocaleDateString();
+    }
+
+    function extractDescription(item) {
+      if (item.description) return item.description;
+      return item.title || 'No description available.';
+    }
+
+    function editTask() {
+      // For now, just close the modal and show a message
+      closeTaskModal();
+      showStatus('📝 Edit feature coming soon!');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('taskModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeTaskModal();
+      }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeTaskModal();
+      }
+    });
+
+    // View switching
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', async () => {
+        const view = tab.dataset.view;
+
+        // Update active states
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
+        document.getElementById(`${view}-view`).classList.add('active');
+
+        // Update header
+        const titles = {
+          kanban: '📋 My Tasks',
+          ideas: '💭 Ideas',
+          roadmap: '🗺️ Roadmap',
+          archive: '📦 Archive',
+          status: '📊 Status'
+        };
+        document.getElementById('view-title').textContent = titles[view];
+
+        // Load kanban content
+        if (view === 'ideas') {
+          await renderIdeasKanban();
+        } else if (view === 'roadmap') {
+          await renderRoadmapKanban();
+        } else if (view === 'archive') {
+          await renderArchiveKanban();
+        } else if (view === 'status') {
+          await renderStatusKanban();
+        }
+      });
+    });
+
+    // SEARCH FUNCTIONALITY
+    let currentSearchQuery = '';
+
+    function handleSearch(query) {
+      currentSearchQuery = query.toLowerCase().trim();
+      // Use unified filter function that handles search + type + priority
+      applyFilters();
+      updateStats();
+    }
+
+    function clearSearch() {
+      const searchInput = document.getElementById('search-input');
+      searchInput.value = '';
+      handleSearch('');
+      searchInput.focus();
+    }
+
+    // Keyboard shortcut: Ctrl+F or Cmd+F to focus search
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+        e.preventDefault();
+        const searchInput = document.getElementById('search-input');
+        searchInput.focus();
+        searchInput.select();
+      }
+      // ESC to clear search
+      if (e.key === 'Escape') {
+        clearSearch();
+      }
+    });
+
+    // FILTER FUNCTIONALITY
+    function applyFilters() {
+      const typeFilter = document.getElementById('type-filter').value;
+      const priorityFilter = document.getElementById('priority-filter').value;
+      const searchQuery = currentSearchQuery;
+
+      const allCards = document.querySelectorAll('.task-card');
+      let visibleCount = 0;
+
+      allCards.forEach(card => {
+        const cardText = card.textContent.toLowerCase();
+        const taskId = card.querySelector('.task-id')?.textContent || '';
+        const priorityEl = card.querySelector('.task-priority');
+        const priorityText = priorityEl ? priorityEl.textContent.toLowerCase() : '';
+
+        // Determine task type from ID
+        let taskType = 'task';
+        if (taskId.startsWith('BUG-')) taskType = 'bug';
+        else if (taskId.startsWith('ISSUE-')) taskType = 'issue';
+        else if (taskId.startsWith('ROAD-')) taskType = 'road';
+
+        // Check type filter
+        const typeMatch = typeFilter === 'all' || taskType === typeFilter;
+
+        // Check priority filter
+        let priorityMatch = priorityFilter === 'all';
+        if (!priorityMatch) {
+          if (priorityFilter === 'p1') {
+            priorityMatch = priorityText.includes('p1') || priorityText.includes('high');
+          } else if (priorityFilter === 'p2') {
+            priorityMatch = priorityText.includes('p2') || priorityText.includes('medium');
+          } else if (priorityFilter === 'p3') {
+            priorityMatch = priorityText.includes('p3') || priorityText.includes('low');
+          }
+        }
+
+        // Check search query
+        const searchMatch = searchQuery === '' || cardText.includes(searchQuery);
+
+        // Apply visibility
+        if (typeMatch && priorityMatch && searchMatch) {
+          card.classList.remove('filter-hidden', 'search-dimmed');
+          if (searchQuery !== '') {
+            card.classList.add('search-highlight');
+          } else {
+            card.classList.remove('search-highlight');
+          }
+          visibleCount++;
+        } else {
+          card.classList.add('filter-hidden');
+          card.classList.remove('search-highlight', 'search-dimmed');
+        }
+      });
+
+      // Update results count
+      const resultsCount = document.getElementById('search-results-count');
+      const totalCards = allCards.length;
+      if (typeFilter !== 'all' || priorityFilter !== 'all' || searchQuery !== '') {
+        resultsCount.textContent = `${visibleCount} of ${totalCards} tasks`;
+      } else {
+        resultsCount.textContent = '';
+      }
+
+      // Save filter state
+      localStorage.setItem('kanban-type-filter', typeFilter);
+      localStorage.setItem('kanban-priority-filter', priorityFilter);
+
+      // Update stats to reflect filtered view
+      updateStats();
+      updateDoneCount();
+    }
+
+    // Load saved filters on page load
+    function loadSavedFilters() {
+      const savedType = localStorage.getItem('kanban-type-filter');
+      const savedPriority = localStorage.getItem('kanban-priority-filter');
+      const savedSort = localStorage.getItem('kanban-sort');
+
+      if (savedType) {
+        document.getElementById('type-filter').value = savedType;
+      }
+      if (savedPriority) {
+        document.getElementById('priority-filter').value = savedPriority;
+      }
+      if (savedSort) {
+        document.getElementById('sort-select').value = savedSort;
+      }
+    }
+
+    // SORTING FUNCTIONALITY
+    function applySorting() {
+      const sortValue = document.getElementById('sort-select').value;
+      localStorage.setItem('kanban-sort', sortValue);
+
+      // Sort cards within each column
+      const columns = ['column-todo', 'column-in-progress', 'column-review', 'column-done'];
+
+      columns.forEach(columnId => {
+        const column = document.getElementById(columnId);
+        if (!column) return;
+
+        const cards = Array.from(column.querySelectorAll('.task-card'));
+        if (cards.length === 0) return;
+
+        // Sort based on selected criteria
+        cards.sort((a, b) => {
+          const [sortBy, direction] = sortValue.split('-');
+          const multiplier = direction === 'desc' ? -1 : 1;
+
+          switch (sortBy) {
+            case 'priority':
+              return multiplier * comparePriority(a, b);
+            case 'progress':
+              return multiplier * compareProgress(a, b);
+            case 'date':
+              return multiplier * compareDate(a, b);
+            case 'alpha':
+              return multiplier * compareAlpha(a, b);
+            default:
+              return 0;
+          }
+        });
+
+        // Re-append cards in sorted order
+        cards.forEach(card => column.appendChild(card));
+      });
+    }
+
+    // Priority comparison (P1/HIGH > P2/MEDIUM > P3/LOW)
+    function comparePriority(cardA, cardB) {
+      const getPriorityValue = (card) => {
+        const priorityEl = card.querySelector('.task-priority');
+        if (!priorityEl) return 0;
+        const text = priorityEl.textContent.toLowerCase();
+        if (text.includes('p1') || text.includes('high')) return 3;
+        if (text.includes('p2') || text.includes('medium')) return 2;
+        if (text.includes('p3') || text.includes('low')) return 1;
+        return 0;
+      };
+      return getPriorityValue(cardA) - getPriorityValue(cardB);
+    }
+
+    // Progress comparison (by percentage)
+    function compareProgress(cardA, cardB) {
+      const getProgress = (card) => {
+        const progressEl = card.querySelector('.progress-percent');
+        if (!progressEl) return 0;
+        return parseInt(progressEl.textContent) || 0;
+      };
+      return getProgress(cardA) - getProgress(cardB);
+    }
+
+    // Date comparison (by task ID number - higher = newer)
+    function compareDate(cardA, cardB) {
+      const getIdNumber = (card) => {
+        const idEl = card.querySelector('.task-id');
+        if (!idEl) return 0;
+        const match = idEl.textContent.match(/(\d+)/);
+        return match ? parseInt(match[1]) : 0;
+      };
+      return getIdNumber(cardA) - getIdNumber(cardB);
+    }
+
+    // Alphabetical comparison (by title)
+    function compareAlpha(cardA, cardB) {
+      const getTitle = (card) => {
+        const titleEl = card.querySelector('.task-title');
+        return titleEl ? titleEl.textContent.toLowerCase() : '';
+      };
+      return getTitle(cardA).localeCompare(getTitle(cardB));
+    }
+
+    // STATISTICS FUNCTIONALITY
+    function updateStats() {
+      const allCards = document.querySelectorAll('.task-card');
+
+      let total = 0, todo = 0, inProgress = 0, done = 0;
+      let tasks = 0, bugs = 0, issues = 0;
+
+      allCards.forEach(card => {
+        // Skip hidden cards from filters
+        if (card.classList.contains('filter-hidden')) return;
+
+        total++;
+
+        // Get task ID to determine type
+        const taskId = card.querySelector('.task-id')?.textContent || '';
+        if (taskId.startsWith('TASK-')) tasks++;
+        else if (taskId.startsWith('BUG-')) bugs++;
+        else if (taskId.startsWith('ISSUE-')) issues++;
+
+        // Get column to determine status
+        const column = card.closest('.kanban-column');
+        const header = column?.querySelector('.column-header');
+        if (header) {
+          if (header.classList.contains('todo')) todo++;
+          else if (header.classList.contains('in-progress')) inProgress++;
+          else if (header.classList.contains('done')) done++;
+        }
+      });
+
+      // Update DOM
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-todo').textContent = todo;
+      document.getElementById('stat-progress').textContent = inProgress;
+      document.getElementById('stat-done').textContent = done;
+      document.getElementById('stat-tasks').textContent = tasks;
+      document.getElementById('stat-bugs').textContent = bugs;
+      document.getElementById('stat-issues').textContent = issues;
+
+      // Calculate completion percentage
+      const completion = total > 0 ? Math.round((done / total) * 100) : 0;
+      document.getElementById('stat-completion').textContent = completion + '%';
+      document.getElementById('stat-progress-fill').style.width = completion + '%';
+    }
+
+    // COLLAPSE DONE COLUMN
+    function toggleDoneColumn() {
+      const header = document.getElementById('done-header');
+      const content = document.getElementById('column-done');
+      const toggle = header.querySelector('.collapse-toggle');
+
+      const isCollapsed = content.classList.toggle('collapsed');
+      header.classList.toggle('collapsed', isCollapsed);
+
+      // Save state to localStorage
+      localStorage.setItem('kanban-done-collapsed', isCollapsed);
+
+      // Update toggle icon
+      toggle.textContent = isCollapsed ? '▶' : '▼';
+    }
+
+    function loadDoneColumnState() {
+      const isCollapsed = localStorage.getItem('kanban-done-collapsed') === 'true';
+      if (isCollapsed) {
+        const header = document.getElementById('done-header');
+        const content = document.getElementById('column-done');
+        const toggle = header.querySelector('.collapse-toggle');
+
+        content.classList.add('collapsed');
+        header.classList.add('collapsed');
+        toggle.textContent = '▶';
+      }
+    }
+
+    function updateDoneCount() {
+      const doneContent = document.getElementById('column-done');
+      const count = doneContent ? doneContent.querySelectorAll('.task-card:not(.filter-hidden)').length : 0;
+      const countEl = document.getElementById('done-count');
+      if (countEl) {
+        countEl.textContent = count;
+      }
+    }
+
+    // DRAG AND DROP FUNCTIONALITY
+    function initDragAndDrop() {
+      const cards = document.querySelectorAll('.task-card');
+      const columns = document.querySelectorAll('.column-content');
+
+      cards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+          card.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', card.querySelector('.task-id')?.textContent || '');
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('dragging');
+          columns.forEach(col => col.classList.remove('drag-over'));
+        });
+      });
+
+      columns.forEach(column => {
+        column.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          column.classList.add('drag-over');
+        });
+
+        column.addEventListener('dragleave', () => {
+          column.classList.remove('drag-over');
+        });
+
+        column.addEventListener('drop', (e) => {
+          e.preventDefault();
+          column.classList.remove('drag-over');
+          showToast('ℹ️ To change task status, edit MASTER_PLAN.md directly', 'info');
+        });
+      });
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Simple markdown to HTML converter
+    function renderMarkdown(text) {
+      if (!text) return '';
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')  // **bold**
+        .replace(/`([^`]+)`/g, '<code>$1</code>')  // `code`
+        .replace(/\[x\]/gi, '✅')  // [x] checkbox
+        .replace(/\[\s?\]/g, '☐')  // [ ] checkbox
+        .replace(/~~(.+?)~~/g, '<s style="opacity:0.6">$1</s>');  // ~~strikethrough~~
+    }
+
+    // Parse description into structured sections (Goal, Priority, Design Reference, etc.)
+    function parseStructuredDescription(description) {
+      if (!description) return { sections: [], otherContent: '' };
+
+      const sections = [];
+      const lines = description.split('\n');
+      let currentSection = null;
+      let otherLines = [];
+
+      // Known section patterns (bold labels at start of line)
+      const sectionPatterns = [
+        { pattern: /^\*\*Goal\*\*:?\s*/i, type: 'goal', label: 'Goal' },
+        { pattern: /^\*\*Priority\*\*:?\s*/i, type: 'priority', label: 'Priority' },
+        { pattern: /^\*\*Design Reference\*\*/i, type: 'reference', label: 'Design Reference' },
+        { pattern: /^\*\*Design Token Added\*\*/i, type: 'reference', label: 'Design Tokens' },
+        { pattern: /^\*\*Where We Stopped\*\*:?\s*/i, type: 'progress', label: 'Current Status' },
+        { pattern: /^\*\*Baseline\*\*/i, type: 'notes', label: 'Baseline' },
+        { pattern: /^\*\*Progress\*\*:?\s*/i, type: 'progress', label: 'Progress' },
+        { pattern: /^\*\*After.*\*\*:?\s*/i, type: 'notes', label: 'Notes' },
+        { pattern: /^\*\*Final\*\*/i, type: 'progress', label: 'Final Status' },
+        { pattern: /^\*\*Completed.*\*\*:?\s*/i, type: 'progress', label: 'Completed' },
+        { pattern: /^\*\*Remaining.*\*\*\s*/i, type: 'notes', label: 'Remaining' },
+        { pattern: /^\*\*Files Fixed\*\*/i, type: 'notes', label: 'Files Fixed' },
+      ];
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        // Check if line starts a new section
+        let matched = false;
+        for (const { pattern, type, label } of sectionPatterns) {
+          if (pattern.test(trimmed)) {
+            // Save previous section if exists
+            if (currentSection && currentSection.content.length > 0) {
+              sections.push(currentSection);
+            }
+            // Start new section - extract content after the label
+            const content = trimmed.replace(pattern, '').trim();
+            currentSection = { type, label, content: content ? [content] : [] };
+            matched = true;
+            break;
+          }
+        }
+
+        if (!matched) {
+          // Add to current section or other content
+          if (currentSection) {
+            // Check if this is a bullet point or continuation
+            if (trimmed.startsWith('-') || trimmed.startsWith('•')) {
+              currentSection.content.push(trimmed);
+            } else if (!trimmed.startsWith('|')) {  // Skip table rows
+              currentSection.content.push(trimmed);
+            }
+          } else {
+            otherLines.push(trimmed);
+          }
+        }
+      }
+
+      // Don't forget the last section
+      if (currentSection && currentSection.content.length > 0) {
+        sections.push(currentSection);
+      }
+
+      return { sections, otherContent: otherLines.join('\n') };
+    }
+
+    // Build structured HTML for expanded task content
+    function buildExpandedContentHtml(task) {
+      const { sections, otherContent } = parseStructuredDescription(task.description);
+      const hasSubtasks = task.subtasks && task.subtasks.length > 0;
+
+      let html = '';
+
+      // Quick stats badges
+      const completed = task.completedSubtasks || 0;
+      const total = hasSubtasks ? task.subtasks.length : 0;
+      const priorityText = task.priority || '';
+      const isHighPriority = priorityText.toLowerCase().includes('p1') || priorityText.toLowerCase().includes('high');
+      const isMediumPriority = priorityText.toLowerCase().includes('p2') || priorityText.toLowerCase().includes('medium');
+
+      if (hasSubtasks || isHighPriority || isMediumPriority) {
+        html += '<div class="quick-stats">';
+        if (isHighPriority) {
+          html += '<span class="stat-badge priority-high">🔴 High Priority</span>';
+        } else if (isMediumPriority) {
+          html += '<span class="stat-badge priority-medium">🟡 Medium Priority</span>';
+        }
+        if (hasSubtasks) {
+          const percent = Math.round((completed / total) * 100);
+          html += `<span class="stat-badge subtasks">📋 ${completed}/${total} subtasks (${percent}%)</span>`;
+        }
+        html += '</div>';
+      }
+
+      // Structured sections
+      for (const section of sections) {
+        html += `<div class="detail-section ${section.type}">`;
+        html += `<div class="detail-label">${section.label}</div>`;
+        html += `<div class="detail-content">${renderMarkdown(section.content.join('<br>'))}</div>`;
+        html += '</div>';
+      }
+
+      // Other content (if any)
+      if (otherContent) {
+        html += `<div class="detail-section notes">`;
+        html += `<div class="detail-label">Details</div>`;
+        html += `<div class="detail-content">${renderMarkdown(otherContent)}</div>`;
+        html += '</div>';
+      }
+
+      // Subtasks with categories
+      if (hasSubtasks) {
+        html += '<div class="task-subtasks">';
+        html += `<div class="subtask-header">Checklist <span class="subtask-progress">${completed}/${total} complete</span></div>`;
+
+        // Group subtasks by category headers (lines ending with colon or containing parentheses like "Base Components (8):")
+        let currentCategory = null;
+
+        for (const st of task.subtasks) {
+          const trimmed = st.trim();
+
+          // Check if this is a category header (e.g., "Base Components (8):" or "**UI Components**:")
+          const categoryMatch = trimmed.match(/^\*?\*?([^*]+)\*?\*?\s*\(\d+\):?$/) ||
+            trimmed.match(/^\*?\*?([^*:]+)\*?\*?:$/);
+
+          if (categoryMatch) {
+            currentCategory = categoryMatch[1].trim();
+            html += `<div class="subtask-category">${currentCategory}</div>`;
+            continue;
+          }
+
+          const isCompleted = st.includes('[x]') || st.includes('✅') ||
+            st.includes('~~') || st.toLowerCase().includes('done') ||
+            st.includes('✓');
+          const text = st.replace(/\[x\]|\[\s?\]|✅|✓|-\s+/gi, '').trim();
+
+          html += `<div class="subtask ${isCompleted ? 'completed' : ''}">`;
+          html += `<span class="subtask-icon">${isCompleted ? '✓' : '○'}</span>`;
+          html += `<span class="subtask-text">${renderMarkdown(text)}</span>`;
+          html += '</div>';
+        }
+
+        html += '</div>';
+      }
+
+      return html;
+    }
+
+    // Expandable task card functions
+    function toggleExpand(taskId, event) {
+      event.stopPropagation(); // Don't trigger card click
+      const card = document.querySelector(`[data-id="${taskId}"]`);
+      if (!card) return;
+
+      const expanded = card.querySelector('.task-expanded');
+      const toggle = card.querySelector('.expand-toggle');
+      if (!expanded || !toggle) return;
+
+      const isExpanded = expanded.style.display !== 'none';
+      expanded.style.display = isExpanded ? 'none' : 'block';
+      toggle.textContent = isExpanded ? '▶' : '▼';
+
+      saveExpandState(taskId, !isExpanded);
+    }
+
+    function getExpandState(taskId) {
+      const states = JSON.parse(localStorage.getItem('kanban-expand-states') || '{}');
+      return states[taskId] || false;
+    }
+
+    function saveExpandState(taskId, isExpanded) {
+      const states = JSON.parse(localStorage.getItem('kanban-expand-states') || '{}');
+      states[taskId] = isExpanded;
+      localStorage.setItem('kanban-expand-states', JSON.stringify(states));
+    }
+
+    function refreshData() {
+      renderKanban();
+
+      // Also refresh the current kanban view if active
+      const activeView = document.querySelector('.nav-tab.active').dataset.view;
+      if (activeView === 'ideas') {
+        renderIdeasKanban();
+      } else if (activeView === 'roadmap') {
+        renderRoadmapKanban();
+      } else if (activeView === 'archive') {
+        renderArchiveKanban();
+      } else if (activeView === 'status') {
+        renderStatusKanban();
+      }
+
+      showStatus('✅ Refreshed!');
+    }
+
+    function showStatus(message) {
+      // Create temporary status message
+      const status = document.createElement('div');
+      status.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #1a1a1a;
+        color: #10b981;
+        border: 1px solid #10b981;
+        padding: 12px 20px;
+        border-radius: 6px;
+        z-index: 1000;
+      `;
+      status.textContent = message;
+      document.body.appendChild(status);
+
+      setTimeout(() => {
+        status.remove();
+      }, 2000);
+    }
+
+    // Add slide animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', function () {
+      // Safety: Close any stuck modals
+      closeTaskModal();
+      document.body.style.overflow = 'auto';
+
+      // Remove any potential overlays
+      const modals = document.querySelectorAll('.task-modal.active');
+      modals.forEach(modal => modal.classList.remove('active'));
+
+      // Clear any stuck status messages
+      const statusElements = document.querySelectorAll('[style*="position: fixed"]');
+      statusElements.forEach(el => el.remove());
+
+      // Initial render
+      renderKanban();
+    });
+
+    // Auto-refresh when page becomes visible (tab switch, navigation back)
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        console.log('Page visible - refreshing data...');
+        renderKanban();
+      }
+    });
+
+    // Also refresh on window focus (for same-tab navigation)
+    window.addEventListener('focus', function () {
+      console.log('Window focused - refreshing data...');
+      renderKanban();
+    });
+
+    // ===== LIVE FILE SYNC (SSE) =====
+    let eventSource = null;
+    let reconnectAttempts = 0;
+    const MAX_RECONNECT_ATTEMPTS = 5;
+
+    function connectSSE() {
+      if (eventSource) {
+        eventSource.close();
+      }
+
+      console.log('[SSE] Connecting to live sync...');
+      eventSource = new EventSource(`${API_BASE}/api/events`);
+
+      eventSource.onopen = () => {
+        console.log('[SSE] Connected to live sync');
+        reconnectAttempts = 0;
+        showToast('🔄 Live sync connected', 'success');
+      };
+
+      eventSource.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log('[SSE] Received:', data);
+
+          if (data.type === 'file-changed') {
+            console.log('[SSE] MASTER_PLAN.md changed externally - refreshing...');
+            showToast('📄 MASTER_PLAN.md updated - refreshing...', 'info');
+            // Debounce to avoid multiple rapid refreshes
+            setTimeout(() => renderKanban(), 300);
+          }
+        } catch (e) {
+          console.error('[SSE] Parse error:', e);
+        }
+      };
+
+      eventSource.onerror = (error) => {
+        console.error('[SSE] Connection error:', error);
+        eventSource.close();
+
+        if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+          reconnectAttempts++;
+          const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
+          console.log(`[SSE] Reconnecting in ${delay}ms (attempt ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})`);
+          setTimeout(connectSSE, delay);
+        } else {
+          console.log('[SSE] Max reconnect attempts reached. Live sync disabled.');
+          showToast('⚠️ Live sync disconnected', 'warning');
+        }
+      };
+    }
+
+    // Start SSE connection on load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Delay SSE connection to let server start
+      setTimeout(connectSSE, 1000);
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      if (eventSource) {
+        eventSource.close();
+      }
+    });
+    // ===== END LIVE FILE SYNC =====
+  </script>
+</body>
+
+</html>

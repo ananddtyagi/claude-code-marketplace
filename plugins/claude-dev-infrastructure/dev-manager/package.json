@@ -1,0 +1,16 @@
+{
+  "name": "claude-dev-manager",
+  "version": "1.0.0",
+  "description": "Development management dashboard for Claude Code projects",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "keywords": ["claude-code", "dev-manager", "task-tracking"],
+  "license": "MIT"
+}

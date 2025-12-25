@@ -1,0 +1,116 @@
+{
+  "$schema": "https://claude.ai/code/settings.schema.json",
+  "_comment": "Claude Code Settings Template - Customize for your project",
+
+  "project": {
+    "name": "{{PROJECT_NAME}}",
+    "description": "{{PROJECT_DESCRIPTION}}",
+    "version": "1.0.0"
+  },
+
+  "permissions": {
+    "_comment": "Tools that can run without user approval",
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run lint:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Read(//**)",
+      "WebSearch",
+      "mcp__brave-search__brave_web_search"
+    ]
+  },
+
+  "hooks": {
+    "_comment": "Hooks run shell commands at specific events",
+    "_docs": "https://docs.anthropic.com/en/docs/claude-code/hooks",
+
+    "PreToolUse": [
+      {
+        "_comment": "Task lock enforcement for multi-instance coordination",
+        "matcher": "Edit|Write",
+        "command": ".claude/hooks/task-lock-enforcer.sh"
+      }
+    ],
+
+    "SessionStart": [
+      {
+        "_comment": "Notify about active task locks from other sessions",
+        "command": ".claude/hooks/session-lock-awareness.sh"
+      }
+    ],
+
+    "SessionEnd": [
+      {
+        "_comment": "Release task locks when session ends",
+        "command": ".claude/hooks/session-lock-release.sh"
+      }
+    ]
+  },
+
+  "skills": {
+    "_comment": "Project-specific skills location",
+    "directory": ".claude/skills"
+  },
+
+  "mcpServers": {
+    "_comment": "MCP servers for extended functionality",
+    "_docs": "https://docs.anthropic.com/en/docs/claude-code/mcp",
+
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "{{BRAVE_API_KEY}}"
+      }
+    },
+
+    "playwright": {
+      "_comment": "Browser automation for visual testing",
+      "command": "npx",
+      "args": ["@anthropic/mcp-playwright"]
+    }
+  },
+
+  "context": {
+    "_comment": "Files to always include in context",
+    "include": [
+      "CLAUDE.md",
+      "docs/MASTER_PLAN.md"
+    ],
+    "exclude": [
+      "node_modules/**",
+      "dist/**",
+      ".git/**",
+      "*.log"
+    ]
+  },
+
+  "preferences": {
+    "_comment": "Development preferences",
+    "codeStyle": {
+      "indentation": "spaces",
+      "indentSize": 2,
+      "quotes": "single",
+      "semicolons": false
+    },
+    "testing": {
+      "requireTestsBeforeClaiming": true,
+      "visualVerificationRequired": true
+    },
+    "documentation": {
+      "updateMasterPlan": true,
+      "createSOPsForBugs": true
+    }
+  }
+}

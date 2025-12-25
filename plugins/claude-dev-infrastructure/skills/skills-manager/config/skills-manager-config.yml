@@ -1,0 +1,177 @@
+# Skills Manager Configuration
+# Universal consolidation & audit settings for Claude Code skills
+
+# Core Settings
+conservatism_level: balanced  # Options: aggressive, balanced, conservative
+
+# Protected Skills (Will NOT be modified or deleted)
+protected_skills:
+  - skill-creator-doctor
+  - skills-manager
+  - dev-debugging
+  - basic-coding
+  - git-workflow-helper
+  - file-operations
+  - vue-app-analyzer
+  - qa-testing
+
+# Risk Management Settings
+risk_settings:
+  # Maximum allowed risk level for automated actions
+  max_deletion_risk: medium    # Options: low, medium, high
+  archive_instead_of_delete: true
+
+  # Actions requiring explicit confirmation
+  require_confirmation_for:
+    - delete
+    - merge
+    - modify_protected
+    - high_risk_operations
+
+# Usage Analysis Settings
+usage_analysis:
+  # Time window for analyzing skill usage patterns
+  usage_window_days: 90        # Analyze activations from last N days
+
+  # Inactivity threshold for considering archival
+  inactive_threshold: 180      # Days without usage before suggesting archive
+
+  # Usage classification thresholds
+  high_usage_threshold: 20     # Uses per period = high usage
+  medium_usage_threshold: 5    # Uses per period = medium usage
+  low_usage_threshold: 1       # Uses per period = low usage
+
+# Redundancy Detection Settings
+redundancy_detection:
+  # Similarity thresholds for different types of overlap
+  capability_similarity_threshold: 0.8    # 80% overlap = candidate for merge
+  trigger_conflict_detection: true
+  semantic_analysis_enabled: true
+
+  # Merge decision thresholds
+  merge_threshold: 0.85         # 85% similarity = recommend merge
+  archive_threshold: 0.3        # 30% relevance = recommend archive
+
+  # Weight distribution for similarity calculation
+  capability_weight: 0.4        # 40% weight to capability overlap
+  trigger_weight: 0.3           # 30% weight to trigger overlap
+  description_weight: 0.3       # 30% weight to description similarity
+
+# Consolidation Rules
+consolidation_rules:
+  # Merge Rules
+  merge:
+    min_similarity: 0.85
+    max_risk_level: medium
+    prefer_higher_usage: true
+    preserve_metadata: true
+
+  # Archive Rules
+  archive:
+    min_inactive_days: 180
+    max_necessity_score: 30
+    preserve_git_history: true
+    create_archive_note: true
+
+  # Delete Rules
+  delete:
+    require_exact_duplicate: true     # Only delete 100% duplicates
+    min_usage_threshold: 2             # Maximum 2 uses per period
+    create_backup: true
+    require_manual_confirmation: true
+
+# Output and Reporting Settings
+output:
+  generate_reports: true
+  create_backup: true
+  verbose_logging: false
+
+  # Report formats
+  report_formats:
+    - markdown    # Human-readable reports
+    - json        # Machine-readable data
+    - yaml        # Configuration files
+
+  # Output locations
+  reports_dir: ".claude/skills-reports"
+  backups_dir: ".claude/skills-backups"
+  archive_dir: ".claude/skills-archive"
+
+# Safety and Validation Settings
+safety:
+  # Pre-execution validation
+  validate_git_status: true      # Check for clean working directory
+  create_backup_branch: true     # Work on separate branch
+  test_skill_loading: true       # Validate skills can load after changes
+
+  # Rollback capabilities
+  enable_rollback: true
+  rollback_methods:
+    - git_revert               # Git-based rollback
+    - backup_restore           # File-based backup restore
+    - branch_deletion          # Complete branch rollback
+
+# Integration Settings
+integrations:
+  # Git integration
+  git:
+    auto_commit_changes: true
+    commit_message_prefix: "skills:"
+    create_pull_request: false
+    branch_prefix: "skills/"
+
+  # Claude Code registry integration
+  registry:
+    auto_update_registry: true     # Update skills.json after changes
+    validate_registry_consistency: true
+    backup_registry: true
+
+# Advanced Settings
+advanced:
+  # Performance optimization
+  parallel_analysis: true
+  cache_analysis_results: true
+  cache_duration_hours: 24
+
+  # Semantic analysis
+  enable_ml_similarity: false     # Machine learning-based similarity (future)
+  use_embedding_comparison: false  # Vector embedding comparison (future)
+
+  # Custom rules
+  custom_rules_file: null         # Path to custom rules file
+  enable_custom_filters: false    # Custom filtering logic
+
+# Environment-Specific Settings
+environments:
+  development:
+    conservatism_level: aggressive
+    verbose_logging: true
+    create_dry_runs: true
+
+  production:
+    conservatism_level: conservative
+    require_manual_approval: true
+    extensive_validation: true
+
+  testing:
+    conservatism_level: balanced
+    create_test_reports: true
+    validate_all_operations: true
+
+# Notification Settings
+notifications:
+  # Enable notifications for important events
+  enable_notifications: false
+
+  # Notification channels
+  channels:
+    console: true
+    file: false
+    webhook: false
+
+  # Events to notify about
+  notify_on:
+    - high_risk_operations
+    - consolidation_complete
+    - validation_failures
+    - backup_created

@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Document Sync Configuration",
+  "description": "Configuration schema for Document Sync skill",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["suggest", "dry-run", "auto-update"],
+      "default": "suggest",
+      "description": "Operation mode for documentation updates"
+    },
+    "protected_docs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": ["README.md", "docs/security.md"],
+      "description": "Files that cannot be automatically updated"
+    },
+    "review_required_for": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["section_removal", "breaking_changes", "api_endpoints", "security_info"]
+      },
+      "default": ["section_removal", "breaking_changes"],
+      "description": "Actions that require manual review"
+    },
+    "output_reports": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": ["doc_verification_report.md", "docs_update_plan.md"],
+      "description": "Report files to generate"
+    },
+    "trust_score_threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 70,
+      "description": "Minimum trust score to consider documentation acceptable"
+    },
+    "max_files_to_scan": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 100,
+      "description": "Maximum number of files to scan (to prevent runaway processes)"
+    },
+    "exclude_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": ["node_modules/**", "dist/**", "coverage/**", ".git/**"],
+      "description": "File patterns to exclude from scanning"
+    },
+    "include_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": ["**/*.md", "**/*.rst", "**/README*", "**/docs/**"],
+      "description": "File patterns to include as documentation"
+    },
+    "verification_rules": {
+      "type": "object",
+      "properties": {
+        "api_endpoints": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify API endpoint documentation"
+        },
+        "code_examples": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify code example syntax and functionality"
+        },
+        "file_references": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify file path references"
+        },
+        "configuration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify configuration documentation"
+        },
+        "dependencies": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify dependency documentation"
+        }
+      },
+      "default": {
+        "api_endpoints": true,
+        "code_examples": true,
+        "file_references": true,
+        "configuration": true,
+        "dependencies": true
+      }
+    },
+    "backup_settings": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic backup before updates"
+        },
+        "backup_location": {
+          "type": "string",
+          "default": "doc_sync_backups",
+          "description": "Directory to store backups"
+        },
+        "max_backups": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 10,
+          "description": "Maximum number of backups to retain"
+        }
+      },
+      "default": {
+        "enabled": true,
+        "backup_location": "doc_sync_backups",
+        "max_backups": 10
+      }
+    }
+  },
+  "required": ["mode"],
+  "additionalProperties": false
+}

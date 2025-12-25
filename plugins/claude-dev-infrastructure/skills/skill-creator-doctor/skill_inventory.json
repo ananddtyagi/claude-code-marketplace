@@ -1,0 +1,1894 @@
+{
+  "scan_date": "2025-11-15T10:46:08.961594",
+  "scanner_version": "1.0.0",
+  "paths": {
+    "skills_dir": "skills",
+    "config_dir": "config"
+  },
+  "summary": {
+    "total_skills": 62,
+    "skills_with_frontmatter": 44,
+    "skills_with_scripts": 5,
+    "skills_with_references": 4,
+    "skills_with_assets": 2,
+    "skills_with_emojis": 0,
+    "average_file_count": 1.37,
+    "average_size_kb": 24.14,
+    "categories": {
+      "unknown": 62
+    },
+    "usage_patterns": {
+      "never_used": 62,
+      "used_this_month": 0,
+      "used_this_quarter": 0,
+      "used_this_year": 0,
+      "no_last_used": 62
+    },
+    "top_triggers": {},
+    "top_keywords": {},
+    "emoji_distribution": {},
+    "resource_summary": {
+      "total_scripts": 24,
+      "total_references": 6,
+      "total_assets": 7,
+      "total_other_files": 68
+    }
+  },
+  "registry": {
+    "skills": {},
+    "categories": {},
+    "emoji_defaults": {}
+  },
+  "skills": [
+    {
+      "name": "arch-planning",
+      "path": "skills/arch-planning",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Systematic Project Planning",
+        "description": "PLAN complex features and projects systematically. Use when user requests task breakdown, project planning, feature implementation strategy, or needs multi-step development approach. Break down work into phases, tasks, and dependencies.",
+        "keywords": [
+          "plan complex features",
+          "projects systematically use when user requests task breakdown",
+          "tasks",
+          "feature implementation strategy",
+          "dependencies",
+          "project planning",
+          "needs multi-step development approach break down work into phases"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "PLANNING_TEMPLATES.md"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 11741,
+      "last_modified": "2025-10-28T09:24:41.842633",
+      "content_length": 6450,
+      "total_size_kb": 11.47
+    },
+    {
+      "name": "arch-undo-redo-systems",
+      "path": "skills/arch-undo-redo-systems",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Design Undo/Redo Systems",
+        "description": "CREATE comprehensive undo/redo systems with Command Pattern. Design state management for complex applications with canvas interactions, multiple stores, and user actions. Use when building new undo/redo functionality from scratch.",
+        "keywords": [
+          "user actions use when building new undoredo functionality from scratch",
+          "create comprehensive undoredo systems  command pattern design state management  complex applications  canvas interactions",
+          "multiple stores"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "performance-optimization.md",
+          "state-synchronization.md",
+          "testing-and-debugging.md",
+          "undo-redo-systems.md"
+        ]
+      },
+      "file_count": 4,
+      "total_size_bytes": 115262,
+      "last_modified": "2025-11-14T19:31:29.704991",
+      "content_length": 2704,
+      "total_size_kb": 112.56
+    },
+    {
+      "name": "calendar-inbox-sync",
+      "path": "skills/calendar-inbox-sync",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Calendar Inbox Sync",
+        "emoji": "📅",
+        "description": "DEBUG calendar inbox showing 0 tasks when inbox has tasks. Fix Vue 3 + Pinia calendar filtering issues where sidebar filters hide calendar inbox tasks.",
+        "keywords": "calendar, inbox, vue3, pinia, filtering, sync",
+        "category": "fix",
+        "triggers": "calendar shows 0 tasks, inbox tasks not visible, calendar filtering issues"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-14T21:33:00.693068",
+      "content_length": 9267,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "calendar-interface-architect",
+      "path": "skills/calendar-interface-architect",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "complexity": "high",
+        "confidence_boost": "",
+        "calendar_interface_errors": "0.6",
+        "event_interface_missing": "0.4",
+        "scheduling_problems": "0.5",
+        "temporal_type_issues": "0.5",
+        "dependencies": "",
+        "description": "SYSTEMATICALLY architect and fix TypeScript calendar interface issues",
+        "estimated_duration": "25-45 minutes",
+        "name": "calendar-interface-architect",
+        "prerequisites": "",
+        "skill_id": "calendar-interface-architect",
+        "skill_name": "TypeScript Calendar Interface Architect",
+        "tags": "",
+        "token_budget": "4000",
+        "triggers": "",
+        "contexts": "",
+        "file_patterns": "",
+        "keywords": "",
+        "version": "1.0"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "execute.js"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 19005,
+      "last_modified": "2025-11-08T23:15:23.243520",
+      "content_length": 16301,
+      "total_size_kb": 18.56
+    },
+    {
+      "name": "calendar-scheduling-fixer",
+      "path": "skills/calendar-scheduling-fixer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "calendar-scheduling-fixer",
+        "description": "This skill should be used when fixing Vue.js calendar task scheduling issues, specifically when tasks with due dates incorrectly appear in calendar grid instead of staying in calendar inbox. The skill provides comprehensive research-backed solutions for separating task management from calendar scheduling with mandatory Playwright testing.",
+        "keywords": [
+          "specifically when tasks  due dates incorrectly appear  calendar grid instead  staying  calendar inbox  skill provides comprehensive research-backed solutions  separating task management from calendar scheduling  mandatory playwright testing",
+          "skill   used when fixing vuejs calendar task scheduling issues"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [
+          {
+            "name": "analyze-task-state.js",
+            "size_bytes": 8851,
+            "extension": ".js"
+          },
+          {
+            "name": "diagnose-calendar-leak.js",
+            "size_bytes": 6704,
+            "extension": ".js"
+          },
+          {
+            "name": "package-skill.js",
+            "size_bytes": 5404,
+            "extension": ".js"
+          },
+          {
+            "name": "test-calendar-behavior.js",
+            "size_bytes": 13661,
+            "extension": ".js"
+          }
+        ],
+        "references": [
+          {
+            "name": "task-calendar-separation.md",
+            "size_bytes": 8054,
+            "extension": ".md"
+          },
+          {
+            "name": "vue-calendar-best-practices.md",
+            "size_bytes": 7725,
+            "extension": ".md"
+          }
+        ],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 3,
+      "total_size_bytes": 50399,
+      "last_modified": "2025-11-08T20:54:57.959093",
+      "content_length": 6773,
+      "total_size_kb": 49.22
+    },
+    {
+      "name": "chief-architect",
+      "path": "skills/chief-architect",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "chief-architect",
+        "emoji": "🎯",
+        "description": "PERSONAL APP ARCHITECT - Strategic development orchestrator for personal productivity applications. Analyzes project context, makes architectural decisions for single-developer projects, delegates to specialized skills, and ensures alignment between user experience goals and technical implementation. Optimized for personal apps targeting 10-100 users.",
+        "keywords": [
+          "ensures alignment between user experience goals",
+          "makes architectural decisions  single-developer projects",
+          "delegates  specialized skills",
+          "technical implementation optimized  personal apps targeting 10-100 users",
+          "personal app architect - strategic development orchestrator  personal productivity applications analyzes project context"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "improvements",
+          "index.cjs"
+        ]
+      },
+      "file_count": 2,
+      "total_size_bytes": 14181,
+      "last_modified": "2025-11-14T21:33:00.708297",
+      "content_length": 21367,
+      "total_size_kb": 13.85
+    },
+    {
+      "name": "class-accessibility-fixer",
+      "path": "skills/class-accessibility-fixer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "complexity": "high",
+        "confidence_boost": "",
+        "accessibility_errors": "0.6",
+        "class_design_issues": "0.4",
+        "encapsulation_problems": "0.4",
+        "private_member_violations": "0.5",
+        "dependencies": "",
+        "description": "SYSTEMATICALLY fix TypeScript class accessibility issues by resolving",
+        "estimated_duration": "15-30 minutes",
+        "name": "class-accessibility-fixer",
+        "prerequisites": "",
+        "skill_id": "class-accessibility-fixer",
+        "skill_name": "TypeScript Class Accessibility Fixer",
+        "tags": "",
+        "token_budget": "3500",
+        "triggers": "",
+        "contexts": "",
+        "file_patterns": "",
+        "keywords": "",
+        "version": "1.0"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "execute.js"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 11799,
+      "last_modified": "2025-11-08T23:13:34.448174",
+      "content_length": 12256,
+      "total_size_kb": 11.52
+    },
+    {
+      "name": "comprehensive-system-analyzer",
+      "path": "skills/comprehensive-system-analyzer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "comprehensive-system-analyzer",
+        "emoji": "📊",
+        "description": "Deep comprehensive system status analyzer that provides honest truth reporting about entire Pomo-Flow application health, performance, and integrity",
+        "triggers": "",
+        "keywords": "",
+        "activation_count": "0",
+        "last_used": "null",
+        "related_skills": ""
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index-old.cjs",
+          "index.cjs"
+        ]
+      },
+      "file_count": 2,
+      "total_size_bytes": 174448,
+      "last_modified": "2025-11-14T21:33:00.724580",
+      "content_length": 9076,
+      "total_size_kb": 170.36
+    },
+    {
+      "name": "crisis-debugging-advisor",
+      "path": "skills/crisis-debugging-advisor",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index.js",
+          "REALITY_CHECK.md"
+        ]
+      },
+      "file_count": 2,
+      "total_size_bytes": 33485,
+      "last_modified": "2025-11-09T11:36:50.060196",
+      "content_length": 13020,
+      "total_size_kb": 32.7
+    },
+    {
+      "name": "css-design-token-enforcer",
+      "path": "skills/css-design-token-enforcer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "css-design-token-enforcer",
+        "description": "Systematically find and replace ALL hardcoded hex values with proper CSS design tokens to ensure complete color consistency across the Pomo-Flow application. This skill addresses the critical issue of yellow vs orange medium priority colors by enforcing a unified design token system based on industry best practices from Atlassian, Salesforce, and enterprise design systems.",
+        "keywords": [
+          "replace all hardcoded hex values  proper css design tokens  ensure complete color consistency across  pomo-flow application  skill addresses  critical issue  yellow vs orange medium priority colors  enforcing  unified design token system based  industry best practices from atlassian",
+          "systematically find",
+          "enterprise design systems",
+          "salesforce"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [
+          {
+            "name": "browser_color_test.js",
+            "size_bytes": 10627,
+            "extension": ".js"
+          },
+          {
+            "name": "final_color_verification.cjs",
+            "size_bytes": 11339,
+            "extension": ".cjs"
+          },
+          {
+            "name": "find_hardcoded_hex.py",
+            "size_bytes": 9812,
+            "extension": ".py"
+          },
+          {
+            "name": "replace_with_tokens.py",
+            "size_bytes": 14580,
+            "extension": ".py"
+          },
+          {
+            "name": "simple_color_test.cjs",
+            "size_bytes": 9092,
+            "extension": ".cjs"
+          },
+          {
+            "name": "validate_consistency.py",
+            "size_bytes": 12574,
+            "extension": ".py"
+          },
+          {
+            "name": "visual_debugger.py",
+            "size_bytes": 16030,
+            "extension": ".py"
+          }
+        ],
+        "references": [
+          {
+            "name": "color_token_mapping.md",
+            "size_bytes": 6330,
+            "extension": ".md"
+          },
+          {
+            "name": "design_token_best_practices.md",
+            "size_bytes": 6116,
+            "extension": ".md"
+          }
+        ],
+        "assets": [
+          {
+            "name": "replacement_rules.json",
+            "size_bytes": 7541,
+            "extension": ".json"
+          },
+          {
+            "name": "token_definitions.json",
+            "size_bytes": 7506,
+            "extension": ".json"
+          }
+        ],
+        "other": [
+          "color_fix_verification_report.json",
+          "css_consistency_report.json",
+          "hex_value_report.json",
+          "visual_debug_report.json"
+        ]
+      },
+      "file_count": 7,
+      "total_size_bytes": 113427,
+      "last_modified": "2025-11-14T19:31:29.855632",
+      "content_length": 9631,
+      "total_size_kb": 110.77
+    },
+    {
+      "name": "dev-debug-cache",
+      "path": "skills/dev-debug-cache",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "dev-debug-cache",
+        "description": "Debug Vue 3 cache issues that persist after standard browser cache clearing and hard refresh",
+        "keywords": [
+          "debug vue 3 cache issues  persist after standard browser cache clearing",
+          "hard refresh"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-09T00:17:53.678411",
+      "content_length": 11717,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-debug-canvas",
+      "path": "skills/dev-debug-canvas",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "dev-debug-canvas",
+        "description": "DEBUG canvas drag/drop problems, node selection issues, viewport transforms, and mouse event handling. Fix when canvas interactions fail, nodes won't move, selection doesn't work, or viewport is stuck. CRITICAL: All canvas fixes MUST be visually tested with Playwright before claiming success. Use DevTools for debugging mouse events and visual inspection.",
+        "keywords": [
+          "visual inspection",
+          "debug canvas dragdrop problems",
+          "mouse event handling fix when canvas interactions fail",
+          "viewport transforms",
+          "nodes wont move",
+          "node selection issues",
+          "selection doesnt work",
+          "viewport  stuck critical all canvas fixes   visually tested  playwright before claiming success use devtools  debugging mouse events"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-09T00:25:41.861416",
+      "content_length": 5455,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-debug-reactivity",
+      "path": "skills/dev-debug-reactivity",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Debug Vue Reactivity",
+        "description": "DEBUG when Vue components won't update, computed properties are stale, or watchers not firing. Fix reactivity issues with ref(), reactive(), Pinia stores, and component state. Use when UI is not updating despite state changes.",
+        "keywords": "vue, reactivity, ref, reactive, computed, watch, components",
+        "category": "debug",
+        "triggers": "components won't update, reactivity issues, computed not working, watcher not firing"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-10-28T09:24:41.949104",
+      "content_length": 2641,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-debugging",
+      "path": "skills/dev-debugging",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Comprehensive Debugging",
+        "description": "Master debugging techniques for Vue.js, Pinia, and cached state issues. Identify reactivity problems, memory leaks, performance bottlenecks, and complex state synchronization issues with systematic troubleshooting approaches.",
+        "keywords": [
+          "complex state synchronization issues  systematic troubleshooting approaches",
+          "pinia",
+          "memory leaks",
+          "performance bottlenecks",
+          "cached state issues identify reactivity problems",
+          "master debugging techniques  vuejs"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "debugging-techniques.md",
+          "troubleshooting-checklist.md"
+        ]
+      },
+      "file_count": 2,
+      "total_size_bytes": 28040,
+      "last_modified": "2025-10-28T09:24:41.981007",
+      "content_length": 13825,
+      "total_size_kb": 27.38
+    },
+    {
+      "name": "dev-fix-keyboard",
+      "path": "skills/dev-fix-keyboard",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Fix Keyboard Shortcuts",
+        "description": "DEBUG keyboard shortcuts not working, conflicting hotkeys, and event handling issues. Fix when Ctrl+Z, Ctrl+S, or other shortcuts fail. Use for global keyboard handlers, event conflicts, and shortcut key debugging.",
+        "keywords": [
+          "conflicting hotkeys",
+          "shortcut key debugging",
+          "event conflicts",
+          "debug keyboard shortcuts not working",
+          "event handling issues fix when ctrlz",
+          "ctrls",
+          "other shortcuts fail use  global keyboard handlers"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-10-28T09:24:42.003951",
+      "content_length": 8133,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-fix-pinia",
+      "path": "skills/dev-fix-pinia",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "dev-fix-pinia",
+        "description": "DEBUG Pinia store state not updating, persistence conflicts, and store synchronization issues. Fix when store actions don't work, state gets stale, or localStorage hydration problems occur. CRITICAL: All store fixes MUST be tested with Playwright before claiming success. Use DevTools Vue DevTools extension when available.",
+        "keywords": "pinia, store, state, persistence, actions, subscriptions",
+        "category": "fix",
+        "triggers": "store not updating, pinia state issues, state not syncing, store actions not working"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-09T00:26:06.505865",
+      "content_length": 5190,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-fix-task-store",
+      "path": "skills/dev-fix-task-store",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Fix Task Store Issues",
+        "description": "DEBUG task store synchronization, task creation/deletion bugs, and state persistence problems. Fix when tasks don't save, disappear unexpectedly, or don't update in UI. Use for Pinia task store, task CRUD operations, and data persistence.",
+        "keywords": [
+          "task creationdeletion bugs",
+          "debug task store synchronization",
+          "data persistence",
+          "task crud operations",
+          "dont update  ui use  pinia task store",
+          "state persistence problems fix when tasks dont save",
+          "disappear unexpectedly"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-10-28T09:24:42.028758",
+      "content_length": 5020,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-fix-task-sync",
+      "path": "skills/dev-fix-task-sync",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Fix Task Sync Issues",
+        "description": "DEBUG Pinia store synchronization failures with IndexedDB. Fix when UI shows different data than store, backup systems read wrong source, or task counts don't match between layers.",
+        "keywords": "pinia, sync, tasks, store, indexeddb, backup",
+        "category": "fix",
+        "triggers": "task sync issues, store not updating, data inconsistency"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-08T22:09:53.517991",
+      "content_length": 11644,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-fix-timer",
+      "path": "skills/dev-fix-timer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Fix Timer State Bugs",
+        "description": "DEBUG Pomodoro timer state issues, incorrect countdown behavior, and timer synchronization problems. Fix when timer won't start, time display is wrong, or timer gets stuck. Use for timer state management, countdown logic, and session persistence.",
+        "keywords": [
+          "incorrect countdown behavior",
+          "countdown logic",
+          "timer gets stuck use  timer state management",
+          "debug pomodoro timer state issues",
+          "session persistence",
+          "time display  wrong",
+          "timer synchronization problems fix when timer wont start"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-10-28T09:24:42.043056",
+      "content_length": 4144,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-implement-ui-ux",
+      "path": "skills/dev-implement-ui-ux",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "dev-implement-ui-ux",
+        "emoji": "🛠️",
+        "description": "Systematically implement UI/UX fixes from audits including design token migration, component consolidation, accessibility improvements, and visual consistency",
+        "keywords": [
+          "component consolidation",
+          "visual consistency",
+          "accessibility improvements",
+          "systematically implement uiux fixes from audits including design token migration"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-14T21:33:00.740394",
+      "content_length": 20372,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-optimize-performance",
+      "path": "skills/dev-optimize-performance",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Optimize Performance",
+        "emoji": "⚡",
+        "description": "OPTIMIZE slow Vue applications, fix memory leaks, and improve render performance. Reduce unnecessary re-renders, optimize computed properties, and fix expensive operations. Use when application feels slow, memory usage grows, or animations lag.",
+        "keywords": [
+          "memory usage grows",
+          "fix memory leaks",
+          "optimize slow vue applications",
+          "optimize computed properties",
+          "fix expensive operations use when application feels slow",
+          "improve render performance reduce unnecessary re-renders",
+          "animations lag"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-14T21:33:00.755553",
+      "content_length": 2684,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-pinia-state",
+      "path": "skills/dev-pinia-state",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Advanced Pinia State Management",
+        "description": "DEBUG advanced Pinia state management and persistence issues. This skill should be used when dealing with complex store architecture, performance optimization, or persistent state synchronization problems that require deep Pinia expertise.",
+        "keywords": "pinia, state, persistence, advanced, architecture, performance, optimization, store",
+        "category": "development",
+        "triggers": "advanced pinia issues, store architecture problems, performance optimization, complex state management"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "pinia-state-management.md"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 3796,
+      "last_modified": "2025-11-08T22:57:43.500931",
+      "content_length": 4562,
+      "total_size_kb": 3.71
+    },
+    {
+      "name": "dev-refactoring",
+      "path": "skills/dev-refactoring",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Systematic Code Refactoring",
+        "description": "AUTO-ACTIVATE when working in pomo-flow-refactor worktree or refactoring large components. MANDATORY port 5550 for refactor worktree. Extract Vue composables, split large files, reduce component size, baseline testing, zero regressions. Triggers on keywords refactor, composable, extract, split component, reduce file size, pomo-flow-refactor directory.",
+        "keywords": [
+          "composable",
+          "split component",
+          "extract",
+          "reduce component size",
+          "zero regressions triggers  keywords refactor",
+          "pomo-flow-refactor directory",
+          "split large files",
+          "reduce file size",
+          "auto-activate when working  pomo-flow-refactor worktree  refactoring large components mandatory port 5550  refactor worktree extract vue composables",
+          "baseline testing"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "composable-patterns.md",
+          "README.md"
+        ]
+      },
+      "file_count": 2,
+      "total_size_bytes": 12407,
+      "last_modified": "2025-10-28T09:24:42.115039",
+      "content_length": 13214,
+      "total_size_kb": 12.12
+    },
+    {
+      "name": "dev-storybook",
+      "path": "skills/dev-storybook",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "dev-storybook",
+        "description": "Build and fix Storybook stories for Vue 3 components with proper patterns, error resolution, and consistent documentation",
+        "keywords": [
+          "fix storybook stories  vue 3 components  proper patterns",
+          "error resolution",
+          "build",
+          "consistent documentation"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-09T00:19:13.673109",
+      "content_length": 17704,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "dev-undo-redo",
+      "path": "skills/dev-undo-redo",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Fix Undo/Redo Conflicts",
+        "description": "FIX conflicting undo/redo implementations that break state synchronization. Replace multiple systems with one VueUse + Pinia solution. Use when undo/redo doesn't work, state gets corrupted, or keyboard shortcuts fail.",
+        "keywords": [
+          "state gets corrupted",
+          "keyboard shortcuts fail",
+          "fix conflicting undoredo implementations  break state synchronization replace multiple systems  one vueuse  pinia solution use when undoredo doesnt work"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "implementation-checklist.md",
+          "migration-plan.md",
+          "pomoflow-undo-redo-unification.md",
+          "testing-validation.md"
+        ]
+      },
+      "file_count": 4,
+      "total_size_bytes": 81786,
+      "last_modified": "2025-11-14T19:31:30.172247",
+      "content_length": 1963,
+      "total_size_kb": 79.87
+    },
+    {
+      "name": "dev-vue",
+      "path": "skills/dev-vue",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "dev-vue",
+        "description": "CREATE Vue 3 components with Composition API and TypeScript. Build reactive components, handle props/events, implement lifecycle hooks, and integrate with Pinia state management and Vue Router. CRITICAL: All component changes MUST be tested with Playwright before claiming success. Use DevTools for debugging when available.",
+        "keywords": [
+          "create vue 3 components  composition api",
+          "handle propsevents",
+          "integrate  pinia state management",
+          "typescript build reactive components",
+          "vue router critical all component changes   tested  playwright before claiming success use devtools  debugging when available",
+          "implement lifecycle hooks"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [
+          {
+            "name": "index.md",
+            "size_bytes": 1225,
+            "extension": ".md"
+          }
+        ],
+        "assets": [],
+        "other": [
+          "IMPLEMENTATION.md",
+          "vue-development.md"
+        ]
+      },
+      "file_count": 3,
+      "total_size_bytes": 7016,
+      "last_modified": "2025-11-09T00:27:15.909842",
+      "content_length": 2718,
+      "total_size_kb": 6.85
+    },
+    {
+      "name": "dev-vueuse",
+      "path": "skills/dev-vueuse",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Implement VueUse Features",
+        "description": "IMPLEMENT VueUse composables for browser APIs, event handling, and performance optimization. Add keyboard shortcuts, local storage, clipboard functionality, drag-and-drop, and responsive design. Use when you need browser integration or enhanced reactivity.",
+        "keywords": [
+          "clipboard functionality",
+          "drag-and-drop",
+          "responsive design use when you need browser integration  enhanced reactivity",
+          "performance optimization add keyboard shortcuts",
+          "implement vueuse composables  browser apis",
+          "local storage",
+          "event handling"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "integration-examples.md",
+          "quick-reference.md",
+          "vue-use.md"
+        ]
+      },
+      "file_count": 3,
+      "total_size_bytes": 37842,
+      "last_modified": "2025-10-28T09:24:42.223244",
+      "content_length": 2175,
+      "total_size_kb": 36.96
+    },
+    {
+      "name": "indexeddb-backup-debugger",
+      "path": "skills/indexeddb-backup-debugger",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "indexeddb-backup-debugger",
+        "description": "Debug IndexedDB backup synchronization issues in Vue.js/Pinia applications by analyzing database state, tracing data flow, and identifying sync problems between UI, store, and backup systems.",
+        "keywords": [
+          "store",
+          "identifying sync problems between ui",
+          "backup systems",
+          "debug indexeddb backup synchronization issues  vuejspinia applications  analyzing database state",
+          "tracing data flow"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [
+          {
+            "name": "analyze-database.cjs",
+            "size_bytes": 15337,
+            "extension": ".cjs"
+          },
+          {
+            "name": "trace-data-flow.cjs",
+            "size_bytes": 23699,
+            "extension": ".cjs"
+          }
+        ],
+        "references": [],
+        "assets": [],
+        "other": [
+          "analysis-report.json",
+          "data-flow-trace.json"
+        ]
+      },
+      "file_count": 5,
+      "total_size_bytes": 62256,
+      "last_modified": "2025-11-08T21:29:44.157115",
+      "content_length": 5943,
+      "total_size_kb": 60.8
+    },
+    {
+      "name": "mapping-manager",
+      "path": "skills/mapping-manager",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "mapping-manager",
+        "description": "Comprehensive documentation mapping and skill index management with lossless tracking system",
+        "keywords": [
+          "skill index management  lossless tracking system",
+          "comprehensive documentation mapping"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "IMPLEMENTATION.md"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 6282,
+      "last_modified": "2025-11-09T00:23:00.212278",
+      "content_length": 7631,
+      "total_size_kb": 6.13
+    },
+    {
+      "name": "master-plan-manager",
+      "path": "skills/master-plan-manager",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "master-plan-manager",
+        "description": "SAFE MASTER-PLAN MAINTENANCE - Intelligent master-plan file management with comprehensive analysis, backup, and validation. Reads entire file, detects changes, updates only when needed, maintains document integrity. Optimized for personal productivity app master-plans.",
+        "keywords": [
+          "safe master-plan maintenance - intelligent master-plan file management  comprehensive analysis",
+          "validation reads entire file",
+          "detects changes",
+          "maintains document integrity optimized  personal productivity app master-plans",
+          "backup",
+          "updates only when needed"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-14T19:31:30.211907",
+      "content_length": 15112,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "ops-port-manager",
+      "path": "skills/ops-port-manager",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Resolve Port Conflicts",
+        "description": "FIX port conflicts when development server won't start or tests fail. Manage port 5546 for PomoFlow, kill existing processes, and resolve server startup issues. Use when npm run dev fails, port is in use, or server won't start.",
+        "keywords": [
+          "server wont start",
+          "fix port conflicts when development server wont start  tests fail manage port 5546  pomoflow",
+          "resolve server startup issues use when npm run dev fails",
+          "port   use",
+          "kill existing processes"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "port-manager.md"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 4761,
+      "last_modified": "2025-10-28T09:24:42.402651",
+      "content_length": 1741,
+      "total_size_kb": 4.65
+    },
+    {
+      "name": "persistence-type-fixer",
+      "path": "skills/persistence-type-fixer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "persistence-type-fixer",
+        "description": "SYSTEMATICALLY fix TypeScript generic type system issues in persistence and backup layers. Resolves unknown type assignments, generic constraint failures, and type inference problems that are blocking the application from compiling. CRITICAL: Addresses the root cause of 40% of remaining TypeScript errors in persistence layer.",
+        "keywords": [
+          "generic constraint failures",
+          "backup layers resolves unknown type assignments",
+          "type inference problems   blocking  application from compiling critical addresses  root cause  40  remaining typescript errors  persistence layer",
+          "systematically fix typescript generic type system issues  persistence"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "execute.js"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 10660,
+      "last_modified": "2025-11-09T00:29:32.894039",
+      "content_length": 9400,
+      "total_size_kb": 10.41
+    },
+    {
+      "name": "pomo-flow-quick-sort-counter-debugger",
+      "path": "skills/pomo-flow-quick-sort-counter-debugger",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [
+          {
+            "name": "analyze-task-dependencies.mjs",
+            "size_bytes": 12516,
+            "extension": ".mjs"
+          },
+          {
+            "name": "create-live-testing-tools.mjs",
+            "size_bytes": 22361,
+            "extension": ".mjs"
+          },
+          {
+            "name": "debug-counter-reactivity.js",
+            "size_bytes": 17163,
+            "extension": ".js"
+          },
+          {
+            "name": "validate-store-state.mjs",
+            "size_bytes": 15723,
+            "extension": ".mjs"
+          }
+        ],
+        "references": [
+          {
+            "name": "vue-reactivity-debugging.md",
+            "size_bytes": 11759,
+            "extension": ".md"
+          }
+        ],
+        "assets": [
+          {
+            "name": "browser-extension.js",
+            "size_bytes": 5437,
+            "extension": ".js"
+          },
+          {
+            "name": "counter-debug.html",
+            "size_bytes": 33209,
+            "extension": ".html"
+          },
+          {
+            "name": "dependency-graph.mmd",
+            "size_bytes": 457,
+            "extension": ".mmd"
+          },
+          {
+            "name": "live-test-suite.js",
+            "size_bytes": 12170,
+            "extension": ".js"
+          },
+          {
+            "name": "USAGE.md",
+            "size_bytes": 1981,
+            "extension": ".md"
+          }
+        ],
+        "other": []
+      },
+      "file_count": 3,
+      "total_size_bytes": 132776,
+      "last_modified": "2025-11-09T10:18:29.538105",
+      "content_length": 11195,
+      "total_size_kb": 129.66
+    },
+    {
+      "name": "qa-audit-ui-ux",
+      "path": "skills/qa-audit-ui-ux",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Audit UI/UX Consistency",
+        "emoji": "⚙️",
+        "description": "COMPREHENSIVE UI/UX audit combining code analysis AND visual screenshot analysis. Detects design system violations, visual inconsistencies across views, button/card/modal style variants, color palette chaos, theme breaks, and accessibility issues. Provides detailed visual evidence and prioritized fixes. INCLUDES Storybook design decision workflow for user-driven choices. CRITICAL - Must analyze actual rendered screenshots, not just code.",
+        "keywords": "design system, consistency, UI, UX, accessibility, design tokens, visual hierarchy, interaction patterns, component design, WCAG, screenshot analysis, visual inconsistency, button variants, card styles, color palette, cross-view comparison, storybook, design decisions, interactive comparison",
+        "category": "audit",
+        "project": "PomoFlow",
+        "version": "1.2.0",
+        "last_updated": "2025-10-26"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "accessibility-audit.md",
+          "component-patterns.md",
+          "design-system-checklist.md",
+          "interaction-patterns.md",
+          "skill.md"
+        ]
+      },
+      "file_count": 5,
+      "total_size_bytes": 124389,
+      "last_modified": "2025-11-14T21:33:00.770814",
+      "content_length": 57824,
+      "total_size_kb": 121.47
+    },
+    {
+      "name": "qa-testing",
+      "path": "skills/qa-testing",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Test Application Features",
+        "description": "TEST Vue.js application functionality with Playwright, validate bug fixes, and verify features work. Use when claiming functionality works, validating changes, or ensuring no regressions. MANDATORY testing before deployment.",
+        "keywords": [
+          "verify features work use when claiming functionality works",
+          "validate bug fixes",
+          "test vuejs application functionality  playwright",
+          "ensuring no regressions mandatory testing before deployment",
+          "validating changes"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-10-28T09:24:42.477604",
+      "content_length": 2315,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "qa-verify",
+      "path": "skills/qa-verify",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "description": "Skill for qa verify",
+        "name": "qa-verify",
+        "keywords": [
+          "skill  qa verify"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-10-28T09:24:42.494135",
+      "content_length": 5096,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "root-project-cleaner",
+      "path": "skills/root-project-cleaner",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "Root Project Cleaner",
+        "description": "CLEAN and organize root project directory structure by safely removing temporary files, build artifacts, and unnecessary clutter. This skill should be used when the project directory becomes cluttered with build artifacts, temporary files, or development-generated content that needs systematic cleanup.",
+        "keywords": "cleanup, project organization, temporary files, build artifacts, directory structure",
+        "category": "specialized",
+        "triggers": "project clutter, build artifacts, temporary files, directory cleanup"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index.js",
+          "README.md"
+        ]
+      },
+      "file_count": 2,
+      "total_size_bytes": 17061,
+      "last_modified": "2025-11-14T19:31:30.460092",
+      "content_length": 7764,
+      "total_size_kb": 16.66
+    },
+    {
+      "name": "skill-creator-doctor",
+      "path": "skills/skill-creator-doctor",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "skill-creator-doctor",
+        "description": "Create, repair, maintain, and consolidate skills. This skill should be used when users want to create new skills, fix broken skills that won't load, diagnose skill system issues, maintain skill health, or consolidate duplicate/obsolete skills. Automatically detects and repairs common skill loading problems including missing registry entries, metadata format issues, and structural problems. Provides comprehensive skill ecosystem management including duplicate detection, merge workflows, and archival processes.",
+        "license": "Complete terms in LICENSE.txt",
+        "keywords": [
+          "create",
+          "consolidate skills  skill   used when users want  create new skills",
+          "maintain",
+          "structural problems provides comprehensive skill ecosystem management including duplicate detection",
+          "archival processes",
+          "repairs common skill loading problems including missing registry entries",
+          "fix broken skills  wont load",
+          "repair",
+          "maintain skill health",
+          "merge workflows",
+          "diagnose skill system issues",
+          "consolidate duplicateobsolete skills automatically detects",
+          "metadata format issues"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [
+          {
+            "name": "analyze_similarity.py",
+            "size_bytes": 18590,
+            "extension": ".py"
+          },
+          {
+            "name": "assign_emoji.py",
+            "size_bytes": 7731,
+            "extension": ".py"
+          },
+          {
+            "name": "init_skill.py",
+            "size_bytes": 10863,
+            "extension": ".py"
+          },
+          {
+            "name": "package_skill.py",
+            "size_bytes": 3247,
+            "extension": ".py"
+          },
+          {
+            "name": "quick_validate.py",
+            "size_bytes": 9350,
+            "extension": ".py"
+          },
+          {
+            "name": "repair_skill.py",
+            "size_bytes": 12416,
+            "extension": ".py"
+          },
+          {
+            "name": "scan_skills.py",
+            "size_bytes": 15445,
+            "extension": ".py"
+          }
+        ],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 1,
+      "total_size_bytes": 77642,
+      "last_modified": "2025-11-14T21:35:22.248765",
+      "content_length": 39452,
+      "total_size_kb": 75.82
+    },
+    {
+      "name": "testing-enforcer",
+      "path": "skills/testing-enforcer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "testing-enforcer",
+        "emoji": "🧪",
+        "description": "Strict enforcement of testing validation to prevent false success claims without rigorous, verifiable testing evidence",
+        "keywords": [
+          "verifiable testing evidence",
+          "strict enforcement  testing validation  prevent false success claims without rigorous"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "claim-detection.cjs",
+          "enforcement-system.cjs",
+          "evidence-validator.cjs",
+          "index.cjs",
+          "playwright-enforcer.cjs"
+        ]
+      },
+      "file_count": 5,
+      "total_size_bytes": 81067,
+      "last_modified": "2025-11-14T21:33:00.841314",
+      "content_length": 5091,
+      "total_size_kb": 79.17
+    },
+    {
+      "name": "ts-architectural-cleanup",
+      "path": "skills/ts-architectural-cleanup",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "complexity": "very_high",
+        "confidence_boost": "",
+        "architectural_issues": "0.5",
+        "code_quality_problems": "0.4",
+        "duplicate_code": "0.6",
+        "refactoring_needs": "0.4",
+        "dependencies": "",
+        "description": "COMPREHENSIVE architectural cleanup using AST analysis to detect duplicates,",
+        "estimated_duration": "30-60 minutes",
+        "name": "ts-architectural-cleanup",
+        "prerequisites": "",
+        "skill_id": "ts-architectural-cleanup",
+        "skill_name": "TypeScript Architectural Cleanup Specialist",
+        "tags": "",
+        "token_budget": "5000",
+        "triggers": "",
+        "contexts": "",
+        "file_patterns": "",
+        "keywords": "",
+        "version": "1.0"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "execute.js"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 14115,
+      "last_modified": "2025-11-08T23:17:45.116921",
+      "content_length": 16195,
+      "total_size_kb": 13.78
+    },
+    {
+      "name": "ts-foundation-restorer",
+      "path": "skills/ts-foundation-restorer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "ts-foundation-restorer",
+        "emoji": "⭐",
+        "description": "Systematically restore TypeScript foundation by fixing missing interface properties, recreating store methods, and resolving type definition issues",
+        "keywords": "typescript, compilation, error, missing property, type definition, tsc, no emit, build failure",
+        "category": "specialized",
+        "triggers": "typescript compilation errors, missing types, foundation issues"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "examples",
+          "execute.js",
+          "IMPLEMENTATION.md",
+          "SKILL.md.backup",
+          "TROUBLESHOOTING.md"
+        ]
+      },
+      "file_count": 5,
+      "total_size_bytes": 41046,
+      "last_modified": "2025-11-14T21:33:00.858331",
+      "content_length": 6949,
+      "total_size_kb": 40.08
+    },
+    {
+      "name": "ui-emoji-debugging",
+      "path": "skills/ui-emoji-debugging",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "ui-emoji-debugging",
+        "description": "Specialized debugging skill for emoji rendering issues in Vue.js applications with Playwright validation capabilities. Use when users report emoji visual problems like gray backgrounds, cropping, sizing issues, or inconsistent rendering across different views in a web application.",
+        "keywords": [
+          "cropping",
+          "inconsistent rendering across different views   web application",
+          "sizing issues",
+          "specialized debugging skill  emoji rendering issues  vuejs applications  playwright validation capabilities use when users report emoji visual problems like gray backgrounds"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 3,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-09T10:08:45.125238",
+      "content_length": 7533,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "user-flow-testing-skills",
+      "path": "skills/user-flow-testing-skills",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "config",
+          "index.js",
+          "package-scripts.json",
+          "page-objects",
+          "run-skill.cjs",
+          "run-skill.mjs",
+          "utils"
+        ]
+      },
+      "file_count": 7,
+      "total_size_bytes": 44546,
+      "last_modified": "2025-11-09T12:01:38.851262",
+      "content_length": 3353,
+      "total_size_kb": 43.5
+    },
+    {
+      "name": "view-by-view-filter-analyzer",
+      "path": "skills/view-by-view-filter-analyzer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index.cjs"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 27304,
+      "last_modified": "2025-11-14T19:31:30.570045",
+      "content_length": 3154,
+      "total_size_kb": 26.66
+    },
+    {
+      "name": "visual-inconsistency-detector",
+      "path": "skills/visual-inconsistency-detector",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "visual-inconsistency-detector",
+        "description": "Comprehensive visual UI/UX inconsistency detector for design system validation, accessibility compliance, and cross-view consistency analysis",
+        "keywords": "visual analysis, design system, accessibility, UI consistency, UX validation, visual regression, cross-view testing",
+        "category": "specialized",
+        "triggers": "visual inconsistencies, design system violations, accessibility issues, UI/UX validation, visual testing"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-09T00:09:57.581094",
+      "content_length": 24099,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "vue-app-analyzer",
+      "path": "skills/vue-app-analyzer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "vue-app-analyzer",
+        "description": "Comprehensive Vue.js application functionality analyzer for deep detection of broken features, silent failures, and workflow issues",
+        "keywords": "vue.js, application analysis, functionality testing, broken features, silent failures, workflow validation, deep testing",
+        "category": "specialized",
+        "triggers": "broken functionality, silent failures, feature testing, application analysis, vue.js debugging"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "analyze.cjs",
+          "pomoflow-validator.cjs"
+        ]
+      },
+      "file_count": 2,
+      "total_size_bytes": 105145,
+      "last_modified": "2025-11-14T19:31:30.672647",
+      "content_length": 17635,
+      "total_size_kb": 102.68
+    },
+    {
+      "name": "vue-duplicate-filter-remover",
+      "path": "skills/vue-duplicate-filter-remover",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "vue-duplicate-filter-remover",
+        "description": "Specialized skill to fix duplicate filter controls in Vue.js applications by implementing route-based conditional rendering",
+        "keywords": [
+          "specialized skill  fix duplicate filter controls  vuejs applications  implementing route-based conditional rendering"
+        ]
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index.cjs"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 10300,
+      "last_modified": "2025-11-14T19:31:30.748747",
+      "content_length": 1384,
+      "total_size_kb": 10.06
+    },
+    {
+      "name": "vue-filter-architecture-standardizer",
+      "path": "skills/vue-filter-architecture-standardizer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index.cjs"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 17867,
+      "last_modified": "2025-11-14T19:31:30.825646",
+      "content_length": 3018,
+      "total_size_kb": 17.45
+    },
+    {
+      "name": "vue-filter-consistency-fixer",
+      "path": "skills/vue-filter-consistency-fixer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {
+        "name": "vue-filter-consistency-fixer",
+        "description": "FIX Vue component filter consistency and reactivity issues across all views. This skill should be used when filters are not working consistently, UI elements don't reflect filter state correctly, or cross-view filter synchronization is broken. CRITICAL: All filter fixes MUST be tested with Playwright before claiming success.",
+        "keywords": "vue, filter, consistency, reactivity, component, ui synchronization",
+        "category": "development",
+        "triggers": "filter bugs, reactivity problems, component state issues"
+      },
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index.cjs"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 15236,
+      "last_modified": "2025-11-14T19:31:30.896345",
+      "content_length": 2284,
+      "total_size_kb": 14.88
+    },
+    {
+      "name": "⏱️ pomo-flow-quick-sort-counter-debugger",
+      "path": "skills/⏱️ pomo-flow-quick-sort-counter-debugger",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T10:16:13.187151",
+      "content_length": 2425,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "⛏️ issue-creator-plan-updates",
+      "path": "skills/⛏️ issue-creator-plan-updates",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": [
+          "index.js"
+        ]
+      },
+      "file_count": 1,
+      "total_size_bytes": 25344,
+      "last_modified": "2025-11-15T10:21:59.988274",
+      "content_length": 2019,
+      "total_size_kb": 24.75
+    },
+    {
+      "name": "✅ qa-verify",
+      "path": "skills/✅ qa-verify",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T10:20:40.091189",
+      "content_length": 2191,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🎨 ui-emoji-debugging",
+      "path": "skills/🎨 ui-emoji-debugging",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T09:27:53.490728",
+      "content_length": 1949,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🏥 crisis-debugging-advisor",
+      "path": "skills/🏥 crisis-debugging-advisor",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T10:18:42.658640",
+      "content_length": 2188,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "📋 master-plan-manager",
+      "path": "skills/📋 master-plan-manager",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T08:21:01.162020",
+      "content_length": 1522,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "📚 dev-storybook",
+      "path": "skills/📚 dev-storybook",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T10:21:22.227193",
+      "content_length": 2354,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🔄 meta-skill-router",
+      "path": "skills/🔄 meta-skill-router",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T08:15:57.196490",
+      "content_length": 1638,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🔍 view-by-view-filter-analyzer",
+      "path": "skills/🔍 view-by-view-filter-analyzer",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T10:14:46.562381",
+      "content_length": 2146,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🔧 skill-creator",
+      "path": "skills/🔧 skill-creator",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T08:36:50.637431",
+      "content_length": 1691,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🗺️ mapping-manager",
+      "path": "skills/🗺️ mapping-manager",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T10:19:59.808254",
+      "content_length": 2184,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🧪 user-flow-testing-skills",
+      "path": "skills/🧪 user-flow-testing-skills",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-15T10:08:13.048895",
+      "content_length": 2110,
+      "total_size_kb": 0.0
+    },
+    {
+      "name": "🧹 legacy-project-cleanup",
+      "path": "skills/🧹 legacy-project-cleanup",
+      "exists": true,
+      "has_skill_md": true,
+      "frontmatter": {},
+      "bundled_resources": {
+        "scripts": [],
+        "references": [],
+        "assets": [],
+        "other": []
+      },
+      "file_count": 0,
+      "total_size_bytes": 0,
+      "last_modified": "2025-11-14T22:44:16.669954",
+      "read_error": "'utf-8' codec can't decode byte 0xf9 in position 314: invalid start byte",
+      "total_size_kb": 0.0
+    }
+  ]
+}
