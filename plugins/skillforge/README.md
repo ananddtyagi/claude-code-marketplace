@@ -1,6 +1,6 @@
 # SkillForge
 
-Complete AI development toolkit for Claude Code with 33 skills, 12 agents, 10 commands, and 27 hooks.
+Complete AI development toolkit for Claude Code with 78 skills, 20 agents, 12 commands, and 92 hooks.
 
 ## Installation
 
@@ -16,21 +16,30 @@ git clone https://github.com/yonatangross/skillforge-claude-plugin .claude
 
 ## Features
 
-### Skills (33)
+### Skills (78)
 
 | Category | Skills |
 |----------|--------|
-| **AI/LLM** | ai-native-development, langgraph-workflows, llm-caching-patterns, llm-safety-patterns, langfuse-observability, pgvector-search |
-| **Backend** | api-design-framework, database-schema-designer, streaming-api-patterns, resilience-patterns |
-| **Frontend** | react-server-components-framework, design-system-starter, type-safety-validation, performance-optimization |
-| **Security** | security-checklist, defense-in-depth |
-| **Testing** | testing-strategy-builder, webapp-testing, evidence-verification |
-| **Architecture** | architecture-decision-record, system-design-interrogation, brainstorming |
-| **DevOps** | devops-deployment, observability-monitoring, edge-computing-patterns |
-| **Data** | golden-dataset-management, golden-dataset-curation, golden-dataset-validation |
+| **AI/LLM** | agent-loops, embeddings, function-calling, llm-streaming, llm-evaluation, rag-retrieval, reranking-patterns, prompt-caching, ollama-local |
+| **Backend** | api-design-framework, clean-architecture, caching-strategies, rate-limiting, background-jobs, api-versioning, fastapi-advanced |
+| **Frontend** | react-server-components-framework, design-system-starter, type-safety-validation, motion-animation-patterns, performance-optimization |
+| **Security** | owasp-top-10, auth-patterns, input-validation, llm-safety-patterns, security-scanning |
+| **Testing** | unit-testing, integration-testing, e2e-testing, msw-mocking, vcr-http-recording, test-data-management, llm-testing |
+| **Architecture** | system-design-interrogation, brainstorming, context-engineering, resilience-patterns |
+| **DevOps** | devops-deployment, observability-monitoring, edge-computing-patterns, github-cli |
+| **LangGraph** | langgraph-state, langgraph-routing, langgraph-checkpoints, langgraph-human-in-loop, langgraph-supervisor, langgraph-parallel |
 
-### Agents (12)
+### Agents (20)
 
+**Product Thinking (6)**
+- `product-strategist` - Value proposition, business alignment
+- `requirements-translator` - PRDs, user stories, acceptance criteria
+- `prioritization-analyst` - RICE/ICE/WSJF scoring, backlog ranking
+- `ux-researcher` - Personas, user journeys, validation
+- `market-intelligence` - Competitive analysis, TAM/SAM/SOM
+- `business-case-builder` - ROI, cost-benefit analysis
+
+**Technical Implementation (14)**
 - `backend-system-architect` - API design, database schemas, microservices
 - `frontend-ui-developer` - React 19, TypeScript, accessibility
 - `database-engineer` - PostgreSQL, pgvector, migrations
@@ -42,9 +51,11 @@ git clone https://github.com/yonatangross/skillforge-claude-plugin .claude
 - `debug-investigator` - Root cause analysis
 - `data-pipeline-engineer` - Embeddings, ETL, vector indexing
 - `rapid-ui-designer` - UI/UX, wireframing, prototyping
-- `ux-researcher` - User research, personas, journey mapping
+- `metrics-architect` - OKRs, KPIs, instrumentation
+- `security-layer-auditor` - Defense-in-depth verification
+- `system-design-reviewer` - Architecture review
 
-### Commands (10)
+### Commands (12)
 
 | Command | Description |
 |---------|-------------|
@@ -58,21 +69,26 @@ git clone https://github.com/yonatangross/skillforge-claude-plugin .claude
 | `/run-tests` | Comprehensive test execution |
 | `/add-golden` | Add documents to golden dataset |
 | `/brainstorm` | Multi-perspective idea exploration |
+| `/configure` | Configure SkillForge bundles and settings |
+| `/status` | Show current configuration status |
 
-### Hooks (27)
+### Hooks (92)
 
 Security-hardened hooks for:
-- Lifecycle events (session start/end)
-- Pre-tool validation (file guards, git protection)
-- Post-tool auditing (metrics, error tracking)
-- Notifications (desktop, sound)
+- **Lifecycle**: Session start/end, context initialization
+- **Permission**: Auto-approval for safe operations
+- **Pre-tool**: File guards, git branch protection, bash validation
+- **Post-tool**: Audit logging, metrics, error tracking
+- **Notifications**: Desktop and sound alerts
+- **Stop**: Quality gates, subagent validation
 
 ## Key Features
 
-- **Progressive Loading**: Token-efficient skill loading via capabilities.json
-- **LangGraph 1.0**: Multi-agent workflows with checkpointing
-- **Security-First**: OWASP Top 10, defense-in-depth, LLM safety
+- **Progressive Loading**: Token-efficient skill loading via capabilities.json (Tier 1-4)
+- **LangGraph 1.0**: Multi-agent workflows with checkpointing and human-in-the-loop
+- **Security-First**: OWASP Top 10, defense-in-depth, LLM safety patterns
 - **Production-Ready**: Patterns for FastAPI, React 19, PostgreSQL/pgvector
+- **CC 2.1.2 Compliant**: All hooks tested and compliant
 
 ## Repository
 
