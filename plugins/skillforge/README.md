@@ -1,6 +1,6 @@
 # SkillForge
 
-Complete AI development toolkit for Claude Code with 78 skills, 20 agents, 12 commands, and 92 hooks.
+Complete AI development toolkit for Claude Code with 78 skills, 20 agents, 12 commands, and 90 hooks.
 
 ## Installation
 
