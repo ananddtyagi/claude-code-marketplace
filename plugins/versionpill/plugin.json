@@ -1,0 +1,72 @@
+{
+  "name": "versionpill",
+  "version": "0.15.0",
+  "description": "Project management for AI-native development. Manage roadmaps, tasks, releases, and context directly from Claude Code. 65 tools for complete project lifecycle.",
+  "author": {
+    "name": "Version Pill",
+    "url": "https://versionpill.com"
+  },
+  "repository": "https://github.com/jimmyharika/versionpill-claude-plugin",
+  "homepage": "https://versionpill.com",
+  "keywords": [
+    "project-management",
+    "roadmap",
+    "changelog",
+    "releases",
+    "tasks",
+    "ai-context",
+    "mcp"
+  ],
+  "category": "productivity",
+  "license": "MIT",
+  "engines": {
+    "claude-code": ">=1.0.0"
+  },
+  "mcp": {
+    "servers": {
+      "versionpill": {
+        "command": "npx",
+        "args": ["mcp-remote", "https://mcp.versionpill.com/sse?key=${VERSIONPILL_API_KEY}"],
+        "env": {}
+      }
+    }
+  },
+  "commands": [
+    {
+      "name": "vp",
+      "description": "Quick access to Version Pill - manage tasks, releases, and context",
+      "type": "prompt",
+      "prompt": "Use the Version Pill MCP to help the user. Available actions: list tasks, create task, start task, complete task, plan releases, get context. Ask what they want to do."
+    },
+    {
+      "name": "vp-sync",
+      "description": "Sync Version Pill context to/from your repo",
+      "type": "prompt",
+      "prompt": "Help the user sync their Version Pill project with their codebase. Options:\n1. sync_to_repo - Push context/tasks/skills to .versionpill/ folder\n2. sync_from_repo - Import CLAUDE.md and other docs into Version Pill\n\nAsk which direction they want to sync."
+    },
+    {
+      "name": "vp-release",
+      "description": "Plan and create releases from completed tasks",
+      "type": "prompt",
+      "prompt": "Use Version Pill MCP to plan releases. Call plan_releases to analyze done tasks and suggest releases. If they approve, call plan_releases with createDrafts=true to create draft releases."
+    }
+  ],
+  "skills": [
+    {
+      "name": "Project Context",
+      "description": "Get full project context including tech stack, goals, and current work",
+      "file": "skills/project-context.md"
+    }
+  ],
+  "setup": {
+    "instructions": "Get your API key at https://versionpill.com → Settings → API Keys",
+    "environment": [
+      {
+        "name": "VERSIONPILL_API_KEY",
+        "description": "Your Version Pill API key",
+        "required": true,
+        "secret": true
+      }
+    ]
+  }
+}
