@@ -1673,6 +1673,27 @@
         "contracts",
         "breaking-changes"
       ]
+    },
+    {
+      "name": "versionpill",
+      "source": "./plugins/versionpill",
+      "description": "Project management for AI-native development. Manage roadmaps, tasks, releases, and AI context directly from Claude Code with 65 tools.",
+      "version": "0.15.0",
+      "author": {
+        "name": "Jimmy Harika",
+        "url": "https://github.com/jimmyharika"
+      },
+      "category": "productivity",
+      "homepage": "https://versionpill.com",
+      "keywords": [
+        "project-management",
+        "roadmap",
+        "changelog",
+        "tasks",
+        "releases",
+        "mcp",
+        "context"
+      ]
     }
   ]
 }

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "versionpill-plugins",
+  "version": "1.0.0",
+  "description": "Version Pill - Project management for AI-native development",
+  "owner": {
+    "name": "Version Pill",
+    "url": "https://versionpill.com"
+  },
+  "plugins": [
+    {
+      "name": "versionpill",
+      "description": "Manage roadmaps, tasks, releases, and AI context directly from Claude Code. 65 tools for complete project lifecycle management.",
+      "version": "0.15.0",
+      "author": {
+        "name": "Version Pill",
+        "url": "https://versionpill.com"
+      },
+      "source": ".",
+      "category": "productivity",
+      "tags": ["project-management", "roadmap", "changelog", "tasks", "mcp"],
+      "homepage": "https://versionpill.com",
+      "icon": "https://versionpill.com/icon.png"
+    }
+  ]
+}
